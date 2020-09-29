@@ -114,9 +114,12 @@ ldr r1, =X
 
 ![](https://i.imgur.com/eOtWjTj.png)
 
-這時候利用memory browser到0x20000000查看該記憶體內容為何
+這時候利用memory browser到0x20000000查看該記憶體內容為何，
+目前這個記憶體內容為0x64=D'100，因此下個指令```ldr r0, [r1]```做完r0應該等於100，
+(若圖片過小的話可以右鍵點選另開分頁查看)
 
 ![](https://i.imgur.com/FGbsJl8.png)
+
 
 
 ---
@@ -129,17 +132,71 @@ ldr r0, [r1]
 
 ![](https://i.imgur.com/bCNPg6W.png)
 
+如我們上述所說r0變成100了
+
+---
+
+```assembly
+movs r2, #AA
+```
+
 ![](https://i.imgur.com/EjsXpXM.png)
+
+由於AA=0x55，因此r2=85
+
+---
 
 ![](https://i.imgur.com/XFXlIx8.png)
 
+```assembly
+adds r2, r2, r0
+```
+
+r2=r2+r0=100+85=185
+
+---
+
 ![](https://i.imgur.com/oa0xJvB.png)
+
+```assembly
+str r2, [r1]
+```
+
+指令的意思是把r2的內容搬到r1的位址
+
+實際上也確實符合
+
+![](https://i.imgur.com/EvvuQuy.png)
+
+![](https://i.imgur.com/nDB7sQE.png)
+
+---
 
 ![](https://i.imgur.com/oLjDGqO.png)
 
+```assembly
+ldr r1, =str
+```
+
+r1應該會取得str的記憶體位址
+
+![](https://i.imgur.com/LTiNgCi.png)
+
+![](https://i.imgur.com/UXai8cF.png)
+
+上圖的確顯示r1指向str的記憶體位址也就是0x20000004
+
+該記憶體位址的內容是0x6c6c6548 
+
+---
+
 ![](https://i.imgur.com/yenbMKA.png)
 
+r2最後應該取得0x6c6c6548，而最後顯示的結果的確為0x6c6c6548= D'536870916
 
+---
+
+<br>
 
 ### Question 3-1: When did the memory content of variable "X" and "str" be initialized? Is it initialized during execution? 變數 X 和 str 的記憶體內容是何時被初始化的？是在程式執行過程中被初始化嘛的嘛？ 
 
