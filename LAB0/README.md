@@ -39,6 +39,8 @@ MEMORY
 
 <br>
 
+<br>
+
 ### 2.1 Please refer to the sample code below, and create a file named "main.s" under the project "Lab0", build the project and observe how the program runs through the debugger tool. 請參考下面的範例程式，並在專案 "Lab0" 底下創建一個名為“ main.s”的檔案，建置該專案並透過 Debugger 工具觀察程式如何運行。
 
 ```assembly=
@@ -79,6 +81,9 @@ MEMORY
 ![](https://i.imgur.com/yTbyRad.png)
 
 <br>
+
+<br>
+
 
 ### 2.3. Variable declaration and Memory observation 變數宣告與記憶體觀察 Please follow the sample code below to modify "main.s" and observe the change of the memory value through the memory browser. 請按照以下面範例程式修改“ main.s”，並通過記憶體瀏覽器觀察記憶體內存的變化。
 
@@ -207,15 +212,87 @@ r2最後應該取得0x6c6c6548，而最後顯示的結果的確為0x6c6c6548= D'
 
 ---
 
+總結: x的初始值是100(位置為0x20000000)，但經過第十七行(```str r2,[r1]```)後更新為185
+
+str的記憶體位置為0x20000004，內容則為1819043144(0x6c6c6548)
+
 <br>
+
+<br>
+
+```assembly=
+    .syntax unified
+    .cpu cortex-m4
+    .thumb
+.data
+    X: .word 100
+    str: .asciz "Hello World!"
+.text
+    .global main
+    .equ AA, 0x55
+main:
+    ldr r1, =X
+    ldr r0, [r1]
+    movs r2, #AA
+    adds r2, r2, r0
+    str r2, [r1]
+    ldr r1, =str
+    ldr r2, [r1]
+L: B L
+```
 
 ### Question 3-1: When did the memory content of variable "X" and "str" be initialized? Is it initialized during execution? 變數 X 和 str 的記憶體內容是何時被初始化的？是在程式執行過程中被初始化嘛的嘛？ 
 
+
+
 ### Question 3-2: What effect will the execution result have, if the variable X is declared in the text section? (Note: You can use external tools to verify your guess. ex: objdump, readelf, nm ...etc.)如果改將變量X宣告在 text section，對執行結果會產生什麼影響？(註：你可以使用外部工具驗證你的猜想。 例如：objdump，readelf，nm等。
+
+1. X與str的記憶體位置改變
+2. X的值不會被改變
+
+```assembly=
+/* Memories definition */
+MEMORY
+{
+  RAM (xrw)		: ORIGIN = 0x20000000, LENGTH = 96K
+  ROM (rx)		: ORIGIN = 0x8000000, LENGTH = 1024K
+}
+```
+
+X的記憶體位置會變成0x80000004而str的位置往前4個bit變成0x20000000，且放入```.text```區後便為ROM，因此X的最後值應該不會被改變，應為初始值的100
+
+結果觀察:
+
+---
+
+![](https://i.imgur.com/XH3Kw11.png)
+
+
+![](https://i.imgur.com/uY4glrk.png)
+
+![](https://i.imgur.com/rX2ANXP.png)
+
+
+上兩張圖顯示X的記憶體位置的確改變且str的位置改到0x20000000
+
+---
+
+![](https://i.imgur.com/iCBBoN6.png)
+
+x的值的確如我們預測的沒有遭到更動，仍為100(0x64)
+
+
+
 
 ### Question 3-3: What is the difference between the content of "r2" and the first 4 bytes of "str" in the memory after the program is executed? 程式執行完畢後"r2"的內容與 字串"str"在 memory 內的前4個 byte 內容有何差異？
 
+執行完畢後的r2內容為1819043144(0x6c6c6548)，[轉成字串後](https://www.rapidtables.com/convert/number/hex-to-ascii.html)得到lleH，因此原本的字串"Hell"(0x48656C6C)中的Most Significant Bit是被放置於最高記憶體位置，Least Significant Bit，我們可以知道這個CPU是採取little Endian的配置方式
+
+[Rerfence: little Endian](https://blog.gtwang.org/programming/difference-between-big-endian-and-little-endian-implementation-in-c/)
+
 ### Question 3-4: Here we use the reserved word ".asciz" for string declaration. Is there any other way to declare the variable str, "Hello World!". If so, please explain one of them.這裡我們使用保留字 .asciz 進行字串宣告。還有什麼其他方法可以聲明變量str, “ Hello World！”。如果有，請解釋其中之一。
+
+<br>
 
 <br>
 
