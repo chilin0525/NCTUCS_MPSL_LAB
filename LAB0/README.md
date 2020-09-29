@@ -26,9 +26,11 @@ purpose registers: 13個
 
 ### Question 1-3: What’s the beginning address of SRAM? Find the memory map. 靜態隨機存取記憶體的起始位置為多少？找出記憶體映射表。
 
+<br>
+
 ### 2.1 Please refer to the sample code below, and create a file named "main.s" under the project "Lab0", build the project and observe how the program runs through the debugger tool. 請參考下面的範例程式，並在專案 "Lab0" 底下創建一個名為“ main.s”的檔案，建置該專案並透過 Debugger 工具觀察程式如何運行。
 
-```assembly
+```assembly=
     .syntax unified
     .cpu cortex-m4
     .thumb
@@ -47,7 +49,17 @@ purpose registers: 13個
 
 ### Require 2-1: Observe the value of registers in the register monitor window. 在暫存器監測視窗中觀察暫存器的變化。
 
+首先常數轉換: ```0x55=D'85``` ```0x1234567=D'19088743```
+
+第10行後 r0變為85
+
+第11行後 r1變為19088743
+
+最後第12行 r2變為19088828(即r0+r1)
+
+
 ### Require 2-2: Observe the compiled .elf file by external tools. 使用外部工具觀察編譯後的 .elf 檔。
+
 
 ### Question 2-1: Is there any difference between the code disassembled by external tools and our source code. 透過反組譯工具所得到的程式碼與我們的原始碼內容上有和不同？
 
