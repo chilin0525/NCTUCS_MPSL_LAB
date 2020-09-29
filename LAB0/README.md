@@ -26,6 +26,17 @@ purpose registers: 13個
 
 ### Question 1-3: What’s the beginning address of SRAM? Find the memory map. 靜態隨機存取記憶體的起始位置為多少？找出記憶體映射表。
 
+查看linker script
+
+```linkerscript=
+/* Memories definition */
+MEMORY
+{
+  RAM (xrw)		: ORIGIN = 0x20000000, LENGTH = 96K
+  ROM (rx)		: ORIGIN = 0x8000000, LENGTH = 1024K
+}
+```
+
 <br>
 
 ### 2.1 Please refer to the sample code below, and create a file named "main.s" under the project "Lab0", build the project and observe how the program runs through the debugger tool. 請參考下面的範例程式，並在專案 "Lab0" 底下創建一個名為“ main.s”的檔案，建置該專案並透過 Debugger 工具觀察程式如何運行。
@@ -71,7 +82,7 @@ purpose registers: 13個
 
 ### 2.3. Variable declaration and Memory observation 變數宣告與記憶體觀察 Please follow the sample code below to modify "main.s" and observe the change of the memory value through the memory browser. 請按照以下面範例程式修改“ main.s”，並通過記憶體瀏覽器觀察記憶體內存的變化。
 
-```assembly
+```assembly=
     .syntax unified
     .cpu cortex-m4
     .thumb
