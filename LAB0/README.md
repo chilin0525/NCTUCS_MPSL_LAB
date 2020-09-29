@@ -60,8 +60,94 @@ purpose registers: 13個
 
 ### Require 2-2: Observe the compiled .elf file by external tools. 使用外部工具觀察編譯後的 .elf 檔。
 
+![](https://i.imgur.com/Gp6d3L1.png)
+
 
 ### Question 2-1: Is there any difference between the code disassembled by external tools and our source code. 透過反組譯工具所得到的程式碼與我們的原始碼內容上有和不同？
+
+![](https://i.imgur.com/yTbyRad.png)
+
+<br>
+
+### 2.3. Variable declaration and Memory observation 變數宣告與記憶體觀察 Please follow the sample code below to modify "main.s" and observe the change of the memory value through the memory browser. 請按照以下面範例程式修改“ main.s”，並通過記憶體瀏覽器觀察記憶體內存的變化。
+
+```assembly
+    .syntax unified
+    .cpu cortex-m4
+    .thumb
+.data
+    X: .word 100
+    str: .asciz "Hello World!"
+.text
+    .global main
+    .equ AA, 0x55
+main:
+    ldr r1, =X
+    ldr r0, [r1]
+    movs r2, #AA
+    adds r2, r2, r0
+    str r2, [r1]
+    ldr r1, =str
+    ldr r2, [r1]
+L: B L
+```
+
+### Require 3-1: Show the memory content of variable "X" and "str" by memory browser.透過記憶體瀏覽器顯示變數 X 和 str 的記憶體内容。
+
+初始狀態:
+
+```assembly
+.data
+    X: .word 100
+    str: .asciz "Hello World!"
+```
+
+![](https://i.imgur.com/cn1Dy1O.png)
+
+---
+
+```assembly
+ldr r1, =X
+```
+
+把x的位置放到r1，因此r1=536870912=0x20000000
+
+![](https://i.imgur.com/eOtWjTj.png)
+
+這時候利用memory browser到0x20000000查看該記憶體內容為何
+
+![](https://i.imgur.com/FGbsJl8.png)
+
+
+---
+
+```assembly
+ldr r0, [r1]
+```
+
+把x記憶體位置上的值放到r0內
+
+![](https://i.imgur.com/bCNPg6W.png)
+
+![](https://i.imgur.com/EjsXpXM.png)
+
+![](https://i.imgur.com/XFXlIx8.png)
+
+![](https://i.imgur.com/oa0xJvB.png)
+
+![](https://i.imgur.com/oLjDGqO.png)
+
+![](https://i.imgur.com/yenbMKA.png)
+
+
+
+### Question 3-1: When did the memory content of variable "X" and "str" be initialized? Is it initialized during execution? 變數 X 和 str 的記憶體內容是何時被初始化的？是在程式執行過程中被初始化嘛的嘛？ 
+
+### Question 3-2: What effect will the execution result have, if the variable X is declared in the text section? (Note: You can use external tools to verify your guess. ex: objdump, readelf, nm ...etc.)如果改將變量X宣告在 text section，對執行結果會產生什麼影響？(註：你可以使用外部工具驗證你的猜想。 例如：objdump，readelf，nm等。
+
+### Question 3-3: What is the difference between the content of "r2" and the first 4 bytes of "str" in the memory after the program is executed? 程式執行完畢後"r2"的內容與 字串"str"在 memory 內的前4個 byte 內容有何差異？
+
+### Question 3-4: Here we use the reserved word ".asciz" for string declaration. Is there any other way to declare the variable str, "Hello World!". If so, please explain one of them.這裡我們使用保留字 .asciz 進行字串宣告。還有什麼其他方法可以聲明變量str, “ Hello World！”。如果有，請解釋其中之一。
 
 <br>
 
