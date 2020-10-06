@@ -132,6 +132,8 @@ using an algorithm or logical operation to detect overflow.
 
 若累積超過導致overflow發生的話累積的register將會變為負數，因此只要檢查r4是否變成負數即可
 
+<br>
+
 Q: 請說明程式是如何計算 Fn
 
 Q: 請說明如何判斷 N 值是否超出範圍 (100<N or N<0)
