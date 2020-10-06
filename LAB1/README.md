@@ -96,7 +96,8 @@ bx lr
 度。 令 Fn 表示理想條件下第 n 個月新生兔的數量。 Fn 可以按以下公式
 建模。
 
->F0 = 0, F1 = 1
+>F0 = 0, 
+F1 = 1,
 Fn = Fn-1 + Fn-2 , n>2
 
 >Reference: https://it.wikipedia.org/wiki/Successione_di_Fibonacci
