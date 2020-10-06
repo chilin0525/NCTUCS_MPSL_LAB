@@ -135,6 +135,11 @@ using an algorithm or logical operation to detect overflow.
 
 <br>
 
+Q: Does ARMv7-M provide any hardware support on overflow detection?ARMv7-M 是否在溢出檢測方面提供任何硬體支持？
+
+
+<br>
+
 Q: 請說明程式是如何計算 Fn
 
 Q: 請說明如何判斷 N 值是否超出範圍 (100<N or N<0)
