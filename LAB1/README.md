@@ -55,6 +55,35 @@ Q: Test case
 Q :  What is the IT-block for ARM Assembly? What
 are the condition code suffixes of ARM instruction? What is the difference between instruction ADD and ADDS?ARM 組合語言中的 IT-block 指的是甚麽？ARM 指令的條件碼後綴是什麼？指令 ADD 與 ADDS 之間有何差別？
 
+IT BLOCK是THUMB instruction set中尉了解決THUMB指令不能條件執行的缺點(原因應該是THUMB僅有16bit空間)。
+THUMB-2 instruction並沒有如ARM instruction set那樣擁有4bit的condition code空間，因此THUMB-2提供了```IT``` instrution，其最多可以可以提供四條instruction進行condition control，而這些instrution我們稱它位於**IT BLOCK**內。
+
+
+IT表示IF-THEN，如果condition code 被偵測為TRUE，那麼condition code的下一條instruction將會執行。最多可以有**3**個額外的T(THEN)或E(ELSE)接在指令後
+
+```assembly
+cmp     r0, #10
+ite     lo        @ if r0 is lower than 10 ...
+addlo   r0, #1    @ ... then r0 = r0 + 1
+movhs   r0, #0    @ ... else r0 = 0
+```
+
+需要注意的是在IT BLOCK內的instruction必須包含condition code，Assemblers會檢查你給IT的狀態，如果滿足狀態執行該condition code的指令，否的話執行相反狀態的指令，所以IT block中僅能含有與IT相同狀態的instruction或是相反狀態的instruction
+
+![](https://i.imgur.com/BqobVXz.png)
+
+
+```assembly
+main:
+	mov 	r0, #11
+        cmp     r0, #10
+	itee    lo            @ if r0 is lower than 10 ...
+	addlo   r0, #1       @then
+	movhs   r0, #0       @else ,will exec
+	movhs 	R1,#2        @else , will exec
+```
+
+
 <br>
 
 Q : 請說明如何計算變數 X, Y 之間的漢明距離，如何統計有幾個相異的 bits
