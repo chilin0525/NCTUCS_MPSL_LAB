@@ -137,12 +137,57 @@ using an algorithm or logical operation to detect overflow.
 
 Q: Does ARMv7-M provide any hardware support on overflow detection?ARMv7-M 是否在溢出檢測方面提供任何硬體支持？
 
+可以替instruction加上s後透過condition flag查看是否有overflow
 
 <br>
 
 Q: 請說明程式是如何計算 Fn
 
 Q: 請說明如何判斷 N 值是否超出範圍 (100<N or N<0)
+
+```assembly
+main:
+    movs R0,#N
+    movs R1,#0
+    movs R2,#1
+    movs R4,#0
+    bl fib
+```
+
+初始化n=0與n=1的情況並且呼叫fib開始並開始計算fib
+
+```assembly
+fib:
+    cmp R0,#100
+    bgt OVER //>
+    cmp R0,#0
+    blt OVER //<
+```
+
+先判斷N是否超出範圍 式的話branch到```OVER```並將-1傳入R4
+
+```assembly
+LOOP:
+     cmp R0,#0
+     beq EXIT
+     cmp R0,#1
+     beq ONE
+
+     sub R0,R0,1
+     add R4,R2,R1
+     cmp R4,#0
+     ble FLOW //<=
+     mov R1,R2
+     mov R2,R4
+
+     cmp R0,#1 //r0=1 return
+     beq EXIT
+     b LOOP
+```
+
+如果r0等於0或1的話需要特判，分別呼叫```EXIT```跟```ONE```將正確結果傳入R4
+
+如果非0或1的話，共需要進行N-1次計算，因此```R4=R1+R2```，可以算出N=2的答案，再將答案傳回R1或R2重複利用，直到做完N-1次計算得到答案才跳離
 
 <br>
 
