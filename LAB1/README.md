@@ -40,7 +40,7 @@ bx lr
 
 <br>
 
-Q: Test case
+**Q: Test case**
 
 
 |         |   X    |   Y    | ANSWER |
@@ -52,8 +52,8 @@ Q: Test case
 
 <br>
 
-Q :  What is the IT-block for ARM Assembly? What
-are the condition code suffixes of ARM instruction? What is the difference between instruction ADD and ADDS?ARM 組合語言中的 IT-block 指的是甚麽？ARM 指令的條件碼後綴是什麼？指令 ADD 與 ADDS 之間有何差別？
+**Q :  What is the IT-block for ARM Assembly? What
+are the condition code suffixes of ARM instruction? What is the difference between instruction ADD and ADDS?ARM 組合語言中的 IT-block 指的是甚麽？ARM 指令的條件碼後綴是什麼？指令 ADD 與 ADDS 之間有何差別？**
 
 IT BLOCK是THUMB instruction set中尉了解決THUMB指令不能條件執行的缺點(原因應該是THUMB僅有16bit空間)。
 THUMB-2 instruction並沒有如ARM instruction set那樣擁有4bit的condition code空間，因此THUMB-2提供了```IT``` instrution，其最多可以可以提供四條instruction進行condition control，而這些instrution我們稱它位於**IT BLOCK**內。
@@ -83,10 +83,30 @@ main:
 	movhs 	R1,#2        @else , will exec
 ```
 
+<BR>
+
+Conditione code 修飾instrution，並由condition code與condition flag決定此條instruction在一定狀態下才會執行
+
+condition flag:
+
+N - Negative 是否為負 第31 Bit Set to 1 when the result of the operation is negative, cleared to 0 otherwise.
+
+Z - Zero 是否為零 第30 Bit Set to 1 when the result of the operation is zero, cleared to 0 otherwise.
+
+C - Carry Unsighed 溢位 第29 Bit Set to 1 when the operation results in a carry, or when a subtraction results in no borrow, cleared to 0 otherwise.
+
+V - Overflow sighed 溢位 第28 Bit Set to 1 when the operation causes overflow, cleared to 0 otherwise.
+
+這些flags資訊都存在於APSR (Application Processor Status Register), or the CPSR (Current Processor Status Register)
+
+![](https://i.imgur.com/yp90uUw.png)
+
+
+ADD 與 ADDS 之間的差異在於前者做完運算之後不會更新condition flag(status register)，後者會做運算且更新
 
 <br>
 
-Q : 請說明如何計算變數 X, Y 之間的漢明距離，如何統計有幾個相異的 bits
+**Q : 請說明如何計算變數 X, Y 之間的漢明距離，如何統計有幾個相異的 bits**
 
 ```assembly
 eor R4, R1, R2
@@ -166,7 +186,10 @@ using an algorithm or logical operation to detect overflow.
 
 Q: Does ARMv7-M provide any hardware support on overflow detection?ARMv7-M 是否在溢出檢測方面提供任何硬體支持？
 
+**Program Status Registers**中的condition flag
+
 可以替instruction加上s後透過condition flag查看是否有overflow
+
 
 <br>
 
