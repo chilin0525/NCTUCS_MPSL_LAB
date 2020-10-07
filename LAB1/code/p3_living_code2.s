@@ -1,4 +1,4 @@
-  .syntax unified
+ .syntax unified
   .cpu cortex-m4
 .thumb
 .data
@@ -22,7 +22,7 @@ do_sort:
             ldr R5,[R4]
             ldr R6,[R4,#4]
             cmp R5,R6
-            blt DONE    //  <
+            bgt DONE    //  <
             mov R7,R5   //  R5>=R6
             mov R5,R6
             mov R6,R7
