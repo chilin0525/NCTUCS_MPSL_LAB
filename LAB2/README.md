@@ -37,9 +37,25 @@ store double word 其實等價於str [r?] str [r?,#4] 可以參考[這篇](https
 
 ### P2
 
-#### Init staack pointer
+#### Init stack pointer
 
 在LAB當中助教要求一塊空間並且讓stack pointer指向此塊記憶體空間，首先，```sp```內部存放的應該為一個memory address，之後push或pop時都會以此address做為基準。stack pointer在ARM中的行為較為特別，為**full-descending stack model**，也就是stack pointer在放完資料後是往下減4byte的，非往上加(另一種模式是用加，不同架構不同方式)，因此在取得該塊記憶體空間後，還要先往上加該記憶體空間的大小後再丟進sp裡面才算完成
+
+#### STM LDM
+
+上述提到的full-descending stack model為default狀態，我們可以透過```STM```與```LDM```去implement stack pointer的操作，這樣就不限至於full-descending stack model的狀態，可以調整stack pointer是增加不是減少，或是stack pointer是指向下一個空資料的memory address或是最後一筆資料處:
+
+***Descending or ascending*** 也就是控制stack pointer是做完事情之後是增加也是減少
+
+***Full or empty*** 操作完stack pointer是指向stack中的last item還是指向下一個stack中的free space(即下一個位置)
+
+**Default**的PUSH與POP為full-descending stack model
+
+<br>
+
+![](https://i.imgur.com/1kCpiUv.png)
+
+![](https://i.imgur.com/r6EGXkF.png)
 
 Nice Ref:
 1. [stackoverflow : Push and Pop in arm](https://stackoverflow.com/questions/27095099/push-and-pop-in-arm/27095517)
@@ -48,6 +64,7 @@ Nice Ref:
 <br>
 
 ### P3
+
 
 ## Demo Cheat Sheet
 
