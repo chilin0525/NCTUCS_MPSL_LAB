@@ -7,6 +7,10 @@ Requirement: Please implement the Karatsuba algorithm which accepts two 32-bit u
 (Hint: The output can be a 64-bits integer. You may need these instructions,
 ADC, STRD.提示：輸出可能為 64 位元整數。 您可會用到 ADC, STRD 這些指令。只要拆成 16-bits 後直接計算就可以)
 
+#### Algorithm
+
+
+
 #### ADD Multiword in ARM
 
 
