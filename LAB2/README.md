@@ -53,6 +53,8 @@ store double word 其實等價於str [r?] str [r?,#4] 可以參考[這篇](https
 
 <br>
 
+![](https://i.imgur.com/DDk9wDs.png)
+
 ![](https://i.imgur.com/1kCpiUv.png)
 
 ![](https://i.imgur.com/r6EGXkF.png)
@@ -60,6 +62,8 @@ store double word 其實等價於str [r?] str [r?,#4] 可以參考[這篇](https
 Nice Ref:
 1. [stackoverflow : Push and Pop in arm](https://stackoverflow.com/questions/27095099/push-and-pop-in-arm/27095517)
 2. [Cortex M0+ : Stack Memory](https://www.sciencedirect.com/topics/engineering/stack-memory) 
+3. [4.15 Stack implementation using LDM and STM](https://www.keil.com/support/man/docs/armasm/armasm_dom1359731152499.htm)
+4. [STACK AND FUNCTIONS](https://azeria-labs.com/functions-and-the-stack-part-7/) 
 
 <br>
 
