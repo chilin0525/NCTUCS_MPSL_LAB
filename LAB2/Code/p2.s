@@ -38,9 +38,6 @@ check:
 	IT	EQ
 	BXEQ LR
 	LDRB R5,[R0,R3]
-	CMP R5,#0x27
-	IT EQ
-	PUSHEQ {R5}
 	CMP R5,#0x5B
 	IT EQ
 	PUSHEQ {R5}
