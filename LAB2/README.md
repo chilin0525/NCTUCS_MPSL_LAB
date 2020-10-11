@@ -28,11 +28,12 @@ REF:
 3. [Assembly Language Programming Arithmetic Shift Operations](http://www-mdp.eng.cam.ac.uk/web/library/enginfo/mdp_micro/lecture4/lecture4-3-3.html) 
 4. [Assembly Language Programming Rotate Operations](http://www-mdp.eng.cam.ac.uk/web/library/enginfo/mdp_micro/lecture4/lecture4-3-4.html)
 
-<br>
 
 #### STRD
 
 store double word 其實等價於str [r?] str [r?,#4] 可以參考[這篇](https://www.zhihu.com/question/55122474)
+
+<br>
 
 ### P2
 
