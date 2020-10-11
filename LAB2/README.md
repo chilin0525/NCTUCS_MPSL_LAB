@@ -30,6 +30,10 @@ REF:
 
 <br>
 
+#### STRD
+
+store double word 其實等價於str [r?] str [r?,#4] 可以參考[這篇](https://www.zhihu.com/question/55122474)
+
 ### P2
 
 <br>
