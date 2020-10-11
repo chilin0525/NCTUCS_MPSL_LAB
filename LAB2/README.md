@@ -37,6 +37,14 @@ store double word 其實等價於str [r?] str [r?,#4] 可以參考[這篇](https
 
 ### P2
 
+#### Init staack pointer
+
+在LAB當中助教要求一塊空間並且讓stack pointer指向此塊記憶體空間，首先，```sp```內部存放的應該為一個memory address，之後push或pop時都會以此address做為基準。stack pointer在ARM中的行為較為特別，為**full-descending stack model**，也就是stack pointer在放完資料後是往下減4byte的，非往上加(另一種模式是用加，不同架構不同方式)，因此在取得該塊記憶體空間後，還要先往上加該記憶體空間的大小後再丟進sp裡面才算完成
+
+Nice Ref:
+1. [stackoverflow : Push and Pop in arm](https://stackoverflow.com/questions/27095099/push-and-pop-in-arm/27095517)
+2. [Cortex M0+ : Stack Memory](https://www.sciencedirect.com/topics/engineering/stack-memory) 
+
 <br>
 
 ### P3
