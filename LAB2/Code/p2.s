@@ -2,7 +2,7 @@
     .cpu cortex-m4
 .thumb
 .data
-    infix_expr: .asciz "{[]}"
+    infix_expr: .asciz "{[{]]}"
     user_stack_bottom: .zero 128
 .text
 .global main
@@ -13,9 +13,12 @@ main:
     BL str_length
     LDR R0, =infix_expr
     mov R3,#0
+
+    mov r9,0
     BL check
     BL pare_check
 
+nop
 L: B L
 
 str_length:
@@ -34,24 +37,56 @@ stack_init:
     BX LR
 
 check:
+    mov r8,sp
 	CMP R3,R1
 	IT	EQ
 	BXEQ LR
 	LDRB R5,[R0,R3]
+	ADD R3,#1
+
 	CMP R5,#0x5B
 	IT EQ
 	PUSHEQ {R5}
+	beq check
+
 	CMP R5,#0x7B
 	IT EQ
 	PUSHEQ {R5}
+	beq check
+
 	CMP R5,0x5D
-	IT EQ
-	POPEQ {R5}
+	beq MATCH1
+
+
 	CMP R5,#0x7D
-	IT EQ
-	POPEQ {R5}
-	ADD R3,#1
+	beq MATCH2
+
 	B check
+MATCH1:
+cmp r2,r8
+beq ERROR2
+CMP R5,0x5D
+IT EQ
+Popeq {R10}
+cmp r10,0x5b
+	bne ERROR1
+	b check
+MATCH2:
+cmp r2,r8
+beq ERROR2
+CMP R5,0x7D
+IT EQ
+popeq {R10}
+cmp r10,0x7b
+	bne ERROR1
+	b check
+ERROR1:
+ push {r10}
+ mov r9,#1
+ B check
+ERROR2:
+mov r9,#1
+b check
 
 pare_check:
 //TODO: check parentheses balance, and set the error code to R0.
@@ -60,4 +95,9 @@ pare_check:
 	ITE EQ
 	MOVEQ R0,#0
 	MOVNE R0,#-1
+
+	cmp r9,#1
+	it eq
+	moveq r0,#-1
+
     BX LR
