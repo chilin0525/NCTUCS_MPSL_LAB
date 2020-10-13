@@ -1,5 +1,16 @@
 # LAB1
 
+================Table of Content================
+
+* [LAB1](#lab1)
+    * [P1. Hamming distance 漢明距離](#p1-hamming-distance-漢明距離)
+    * [3.2. Fibonacci serial 斐波那契數列](#32-fibonacci-serial-斐波那契數列)
+    * [3.3. Bubble sort 氣泡排序](#33-bubble-sort-氣泡排序)
+
+[Created By README_Table_of_Content_Generator By Chilin😎️😎️😎️](https://github.com/chilin0525/README_Table_of_Content_Generator)
+
+<br>
+
 ## P1. Hamming distance 漢明距離
 
 >The Hamming distance between two integers is the number of positions
