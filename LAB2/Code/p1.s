@@ -1,21 +1,12 @@
-    .syntax unified
+  .syntax unified
     .cpu cortex-m4
     .thumb
 .data
     result: .zero 8
 .text
     .global main
-    .equ X, 0x12345678
-    .equ Y, 0x77654321
-
-main:
-    LDR R0, =X
-    LDR R1, =Y
-    LDR R2, =result
-    BL kara_mul
-
-L:
-    B L
+    .equ X, 0xffffffff
+    .equ Y, 0xffffffff
 
 kara_mul:
 	MOV R3, R0, LSR #16 //a1
@@ -26,8 +17,10 @@ kara_mul:
 	MOV R6, R1
 	ROR R6, #16
 	MOV R6, R6, LSR #16 //b2
+	
 	MUL R7,R3,R5 //z1
 	MUL R8,R4,R6 //z2
+	
 	ADD R9,R3,R4
 	ADD R10,R5,R6
 	ADD R12,R7,R8 //z1+z2
@@ -43,4 +36,13 @@ kara_mul:
 	STR R4,[R2]
 	STR R3,[R2,#4]
     BX lr
+
+main:
+    LDR R0, =X
+    LDR R1, =Y
+    LDR R2, =result
+    BL kara_mul
+nop
+L:
+    B L
 
