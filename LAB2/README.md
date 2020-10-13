@@ -7,6 +7,7 @@ ADC, STRD.提示：輸出可能為 64 位元整數。 您可會用到 ADC, STRD 
 
 ### Algorithm
 
+![](https://i.imgur.com/bmfpCHw.png)
 
 
 Z1需要shift 32bit，Z2需要shift 16bit，最終做法是把R3切半，後半段補0後與Z2相加，Z1再與Z3前半段相加即可
@@ -18,6 +19,34 @@ REF:[[算法系列之九]Karatsuba快速相乘算法](https://blog.csdn.net/Sunn
 ```assembly
 ADDS    r4, r0, r2    ; adding the least significant words
 ADC     r5, r1, r3    ; adding the most significant words
+```
+
+### SUB Multiword in ARM
+
+```assembly
+SUBS    r3, r6, r9
+SBCS    r4, r7, r10
+SBC     r5, r8, r11
+```
+
+### MUL Multiword in ARM
+
+```Op{cond}{S} RdLo, RdHi, Rm, Rs```
+
+The ```UMULL``` instruction interprets the values from Rm and Rs as **unsigned integers**. It multiplies these integers and places the least significant 32 bits of the result in RdLo, and the most significant 32 bits of the result in RdHi.
+
+The ```UMLAL``` instruction interprets the values from Rm and Rs as **unsigned integers**. It multiplies these integers, and adds the 64-bit result to the 64-bit unsigned integer contained in RdHi and RdLo.
+
+The ```SMULL``` instruction interprets the values from Rm and Rs as **two's complement signed integers**. It multiplies these integers and places the least significant 32 bits of the result in RdLo, and the most significant 32 bits of the result in RdHi.
+
+The ```SMLAL``` instruction interprets the values from Rm and Rs as **two's complement signed integers**. It multiplies these integers, and adds the 64-bit result to the 64-bit signed integer contained in RdHi and RdLo.
+
+```assembly
+UMULL       r0,r4,r5,r6
+UMLALS      r4,r5,r3,r8
+SMLALLES    r8,r9,r7,r6
+SMULLNE     r0,r1,r9,r0 ; Rs can be the same as other
+                        ; registers
 ```
 
 ### 0xffff*0xffff
@@ -47,10 +76,12 @@ main:
 ```
 
 REF:
-1. [Multiword arithmetic example](https://www.keil.com/support/man/docs/armasm/armasm_dom1361289861367.htm)
-2. [stackoverflow : How to get the low 16-bit half-word most efficiently on ARM (ARM7TDMI)?](https://stackoverflow.com/questions/40899113/how-to-get-the-low-16-bit-half-word-most-efficiently-on-arm-arm7tdmi)
-3. [Assembly Language Programming Arithmetic Shift Operations](http://www-mdp.eng.cam.ac.uk/web/library/enginfo/mdp_micro/lecture4/lecture4-3-3.html) 
-4. [Assembly Language Programming Rotate Operations](http://www-mdp.eng.cam.ac.uk/web/library/enginfo/mdp_micro/lecture4/lecture4-3-4.html)
+1. [Multiword arithmetic example ADD](https://www.keil.com/support/man/docs/armasm/armasm_dom1361289861367.htm)
+2. [Multiword arithmetic examples SUB](https://www.keil.com/support/man/docs/armasm/armasm_dom1361289908389.htm)
+3. [Arm Developer : UMULL, UMLAL, SMULL and SMLAL](https://developer.arm.com/documentation/dui0068/b/arm-instruction-reference/arm-multiply-instructions/umull--umlal--smull-and-smlal?lang=en)
+4. [stackoverflow : How to get the low 16-bit half-word most efficiently on ARM (ARM7TDMI)?](https://stackoverflow.com/questions/40899113/how-to-get-the-low-16-bit-half-word-most-efficiently-on-arm-arm7tdmi)
+5. [Assembly Language Programming Arithmetic Shift Operations](http://www-mdp.eng.cam.ac.uk/web/library/enginfo/mdp_micro/lecture4/lecture4-3-3.html) 
+6. [Assembly Language Programming Rotate Operations](http://www-mdp.eng.cam.ac.uk/web/library/enginfo/mdp_micro/lecture4/lecture4-3-4.html)
 
 
 ### STRD
