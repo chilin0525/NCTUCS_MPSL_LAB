@@ -20,6 +20,20 @@ ADDS    r4, r0, r2    ; adding the least significant words
 ADC     r5, r1, r3    ; adding the most significant words
 ```
 
+### 0xffff*0xffff
+
+```assembly
+main:
+    LDR R5, =t	// 0xffff
+    mov R6,R5	// 0xffff	
+    mul R7,R5,R6 //0xfffe0001
+    mov R8,R7	//0xfffe0001
+    adds R9,R7,R8 //0xfffc0002
+    adc R10,#0
+    LDR R2, =result
+nop
+```
+
 REF:
 1. [Multiword arithmetic example](https://www.keil.com/support/man/docs/armasm/armasm_dom1361289861367.htm)
 2. [stackoverflow : How to get the low 16-bit half-word most efficiently on ARM (ARM7TDMI)?](https://stackoverflow.com/questions/40899113/how-to-get-the-low-16-bit-half-word-most-efficiently-on-arm-arm7tdmi)
