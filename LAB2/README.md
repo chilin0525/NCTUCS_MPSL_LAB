@@ -145,9 +145,12 @@ Nice Ref:
 are their pros and cons?
 甚麼是 caller-save register? 甚麽是 "callee-save register"? 各有甚麽優缺點？
 
+
+
 >Question 3: When recursive functions are executing the self-calling. Which
 registers should be backed up to stack?
 當遞迴函數在執行自調用時。哪些暫存器應該要被備份到記憶體堆疊？
+
 
 >Question4: If we want to use STM, LDM instructions to replace POP, PUSH
 instructions. Which suffix should be added?
@@ -185,6 +188,21 @@ ADC     r5, r1, r3    ; adding the most significant words
 ```
 
 <br>
+
+
+### P2_TestCase
+
+- [ ] { -99+ [ 10 + 20 - 0] }
+- [ ] { -99+ [ 10 + 20 - 10 }
+
+### Q2-1 
+
+>請說明如何初始化 sp (應該要把 sp 指向哪裡)？
+
+
+
+<br>
+
 
 ### P3_TestCase
 
