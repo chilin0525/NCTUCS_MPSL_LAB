@@ -91,34 +91,6 @@ spec中提到因為相乘後可能為64bit，因此可能需要STRD存答案，�
 
 <br>
 
-### TestCase
-
-- [x] 0x12345678 * 0xABCDEF00 = 0xc379aaa42d20800
-- [x] 0xFFFFFFFF * 0xFFFFFFFF = 0XFFFFFFFE00000001
-    - [x] 0xFFFF*0xFFFF=0xFFFE0001
-    - [x] 0xFFFF+0xFFFF=0x1FFFE
-    - [x] 0xffff*0xffff+0xffff*0xffff=0x1fffc0002
-    - [x] (0xFFFF+0xFFFF)*(0xFFFF+0xFFFF)=0x3FFF80004
-- [x] 0x46789214*0xBCDABADC = 0x33fcc1633ec81130
-
-### Q1-1
-
->32-bits 無號整數相乘的最大結果為 64-bits 無號整數，因此需要使用兩個暫存器來儲存。在公式中 $2^{n/2} * [(X_L + X_R)(Y_L + Y_R) - (X_LY_L + X_RX_R)]$ 項的結果並不屬於任何一個暫存器。同學這部份如何解決？
-
-翻譯一下題目，這題也就是問中間跨越兩個register是如何解決，我們的解決方式就是拆成前後兩塊，前塊與shift n bit的相加 ; 後半補0後與不用shift的相加就是答案
-
-### Q1-2
-
-> 我們使用低 32 位元的暫存器來存 result，但有時候可能需要進位到高 32 位元。這部份如何處理？
-
-處理ADD Multiword in ARM的技巧，後半相加後記得更新condition flag，前半段做相加時就會利用```ADC```就有辦法加到carry了
-
-```assembly
-ADDS    r4, r0, r2    ; adding the least significant words
-ADC     r5, r1, r3    ; adding the most significant words
-```
-
-<br>
 
 ---
 
@@ -159,3 +131,33 @@ Nice Ref:
 
 ## P3
 
+## Demo CheetSheet
+
+### P1_TestCase
+
+- [x] 0x12345678 * 0xABCDEF00 = 0xc379aaa42d20800
+- [x] 0xFFFFFFFF * 0xFFFFFFFF = 0XFFFFFFFE00000001
+    - [x] 0xFFFF*0xFFFF=0xFFFE0001
+    - [x] 0xFFFF+0xFFFF=0x1FFFE
+    - [x] 0xffff*0xffff+0xffff*0xffff=0x1fffc0002
+    - [x] (0xFFFF+0xFFFF)*(0xFFFF+0xFFFF)=0x3FFF80004
+- [x] 0x46789214*0xBCDABADC = 0x33fcc1633ec81130
+
+### Q1-1
+
+>32-bits 無號整數相乘的最大結果為 64-bits 無號整數，因此需要使用兩個暫存器來儲存。在公式中 $2^{n/2} * [(X_L + X_R)(Y_L + Y_R) - (X_LY_L + X_RX_R)]$ 項的結果並不屬於任何一個暫存器。同學這部份如何解決？
+
+翻譯一下題目，這題也就是問中間跨越兩個register是如何解決，我們的解決方式就是拆成前後兩塊，前塊與shift n bit的相加 ; 後半補0後與不用shift的相加就是答案
+
+### Q1-2
+
+> 我們使用低 32 位元的暫存器來存 result，但有時候可能需要進位到高 32 位元。這部份如何處理？
+
+處理ADD Multiword in ARM的技巧，後半相加後記得更新condition flag，前半段做相加時就會利用```ADC```就有辦法加到carry了
+
+```assembly
+ADDS    r4, r0, r2    ; adding the least significant words
+ADC     r5, r1, r3    ; adding the most significant words
+```
+
+<br>
