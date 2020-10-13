@@ -5,8 +5,8 @@
     result: .zero 8
 .text
     .global main
-    .equ X, 0xFFFFFFFF
-    .equ Y, 0xFFFFFFFF
+    .equ X, 0x12345678
+    .equ Y, 0xABCDEF00
 
 kara_mul:
 	MOV R3, R0, LSR #16 //a1
