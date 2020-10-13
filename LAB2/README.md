@@ -34,6 +34,18 @@ main:
 nop
 ```
 
+### (0xffff+0xffff)*(0xffff+0xffff)
+
+```assembly
+main:
+    LDR R5, =t //0xffff
+    mov R6,R5  //0xffff
+    add R7,R5,R6 //0x1fffe
+    mov r6,r7	 //0x1fffe
+    UMULL r3,r4,r7,r6 // 0x3fff80004(R3=Rdlo R4=RDhi)
+    LDR R2, =result
+```
+
 REF:
 1. [Multiword arithmetic example](https://www.keil.com/support/man/docs/armasm/armasm_dom1361289861367.htm)
 2. [stackoverflow : How to get the low 16-bit half-word most efficiently on ARM (ARM7TDMI)?](https://stackoverflow.com/questions/40899113/how-to-get-the-low-16-bit-half-word-most-efficiently-on-arm-arm7tdmi)
