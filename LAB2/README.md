@@ -131,7 +131,31 @@ Nice Ref:
 
 ## P3
 
+
+<br>
+
+---
+
+
 ## Demo CheetSheet
+
+### Spec_Qustion
+
+>Question 1: What is "caller-save register"? What is "callee-save register"? What
+are their pros and cons?
+甚麼是 caller-save register? 甚麽是 "callee-save register"? 各有甚麽優缺點？
+
+>Question 3: When recursive functions are executing the self-calling. Which
+registers should be backed up to stack?
+當遞迴函數在執行自調用時。哪些暫存器應該要被備份到記憶體堆疊？
+
+>Question4: If we want to use STM, LDM instructions to replace POP, PUSH
+instructions. Which suffix should be added?
+如果我們想用 STM, LDM 指令來取代 POP, PUSH 指令。分別該加上哪種
+後綴？
+
+<br>
+
 
 ### P1_TestCase
 
@@ -161,3 +185,32 @@ ADC     r5, r1, r3    ; adding the most significant words
 ```
 
 <br>
+
+### P3_TestCase
+
+[REF:GCD calculator](http://www.alcula.com/calculators/math/gcd/#gsc.tab=0)
+
+- [x] GCD(94(0x5E),96(0x60)) = 2
+- [x] GCD(39(0x27),65(0x41)) = 13
+- [x] GCD(1,1) = 1
+- [x] GCD(1,2) = 1
+- [x] GCD(23,100) = 1
+- [x] GCD(25,100) = 25
+- [x] GCD(1,0) = 1
+- [x] GCD(0,1) = 1
+- [x] GCD(0,0) = 0
+- [x] GCD(2,2) = 2
+- [x] GCD(1234587,54525) = 3
+- [x] GCD(1234587,5452554) = 3
+- [x] GCD(5421354,58313562) = 6 
+- [x] GCD(3122712,46840680) = 3122712
+
+### Q3-1
+
+> 請說明為何在遞迴呼叫的時候，我們需要備份 LR？請問同學是在甚麽時候備份 LR 的？備份時機有甚麼特別的要求嗎？
+
+因為LR使用BL時自動把memory中的next instruction儲存起來的地方，但是多次的呼叫將會導致BL中的address被蓋過去，若沒有將LR PUSH到stack中的話那麼可能會沒辦法return到正確的位置上
+在再次呼叫自己前PUSH即可
+
+### live coding Q3
+>請修改 Require 3-3。計算在 recursion 過程中，記錄最多用了多少 stack size (以 byte 為單位)，並將它存進 max_size 這個變數中。
