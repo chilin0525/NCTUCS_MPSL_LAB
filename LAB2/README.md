@@ -7,7 +7,7 @@ ADC, STRD.提示：輸出可能為 64 位元整數。 您可會用到 ADC, STRD 
 
 ### Algorithm
 
-![](https://i.imgur.com/DA0KxW5.png)
+
 
 Z1需要shift 32bit，Z2需要shift 16bit，最終做法是把R3切半，後半段補0後與Z2相加，Z1再與Z3前半段相加即可
 
