@@ -147,10 +147,17 @@ are their pros and cons?
 
 
 
+|  | caller-save register | callee-save register |
+|:-------- | -------------------- | -------------------- |
+| 優       | callee可以任意使用register 不需要事先存起來，會有更好的perfermence                     |    僅需存callee要使用的register                  |
+| 缺       | caller需要存所有register，但callee可能不用用到那麼多register                 |  不可以任意使用register 需要事先存起來               |
+
+
 >Question 3: When recursive functions are executing the self-calling. Which
 registers should be backed up to stack?
 當遞迴函數在執行自調用時。哪些暫存器應該要被備份到記憶體堆疊？
 
+需要備份function所用到的register與lr
 
 >Question4: If we want to use STM, LDM instructions to replace POP, PUSH
 instructions. Which suffix should be added?
