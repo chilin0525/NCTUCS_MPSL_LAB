@@ -34,41 +34,27 @@ S2:
     mov R3,R0
     BX LR
 S3:
-    push {R0}
-    push {R1}
     push {LR}
     mov R0,R0,LSR #1 // a>>1
     mov R1,R1,LSR #1 // b>>1
     BL GCD
     pop {LR}
-    pop {R1}
-    pop {R0}
     mov R7,#2
     mul R3,R3,R7
     BX LR
 S4:
-    push {R0}
-    push {R1}
     push {LR}
     mov R0,R0,LSR #1 // a>>1
     BL GCD
     pop {LR}
-    pop {R1}
-    pop {R0}
     BX LR
 S5:
-    push {R0}
-    push {R1}
     push {LR}
     mov R1,R1,LSR #1 // b>>1
     BL GCD
     pop {LR}
-    pop {R1}
-    pop {R0}
     BX LR
 S6:             // else
-    push {R0}
-    push {R1}
     push {LR}
     cmp R0,R1
     blt ELSE    // R0<R1 a<b
@@ -81,8 +67,6 @@ ELSE: // for a<b
 DONE:
     BL GCD
     pop {LR}
-    pop {R1}
-    pop {R0}
     BX LR
 
 .global main
