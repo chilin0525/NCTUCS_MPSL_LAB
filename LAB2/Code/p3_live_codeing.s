@@ -1,4 +1,3 @@
-
   .syntax unified
   .cpu cortex-m4
   .thumb
@@ -6,8 +5,8 @@
     result: .word 0
     max_size: .word 0
 .text
-    m: .word 39
-    n: .word 65
+    m: .word 0x41
+    n: .word 0x27
 
 Find_MAX_stack:
     mov R9,sp
@@ -96,5 +95,8 @@ main:
 
 ldr R7,=result
 str R3,[R7]
+ldr R8,=max_size
+str R10,[R8]
 
 nop
+
