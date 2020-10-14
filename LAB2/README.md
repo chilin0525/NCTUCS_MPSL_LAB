@@ -200,6 +200,17 @@ instructions. Which suffix should be added?
 
 ![](https://i.imgur.com/r6EGXkF.png)
 
+Example:
+
+```assembly
+main:
+   	mov r0,#12
+	mov r1,#16
+   	STMDB sp!,{r0}
+	//push {r1}
+	LDMIA sp!,{r2}
+```
+
 <br>
 
 
