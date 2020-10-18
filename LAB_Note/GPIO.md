@@ -145,4 +145,14 @@ L1:
 	B L1
 ```
 
-點亮Port A LED燈
+點亮Port A第5 Bit的LED燈(Build All -> Run)
+
+注意設定Output Register時的設定方法，不可以去影響到其他人
+
+## 設定GPIO output Register
+
+如上述，在設定GPIO output register時可以使用特定方法避免直接mov資料進去ODR裏頭
+
+### BSSR
+
+![](https://i.imgur.com/GulHRpx.png)
