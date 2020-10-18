@@ -1,5 +1,14 @@
 # LAB3
 
+## Spec Question
+
+### P1 LED scroller
+
+>Requirement: Please construct a circuit containing 4 active low LEDs. That is, the LED will be turned off when the corresponding GPIO pin outputs high potential
+(VDD), and it will be turned on when the low potential (VSS) is received. Then, refer to the lecture slide, finish the initialization of peripheral bus (AHB2) and
+GPIO pins.Then, complete the program below and use the variable "leds" to record the LEDs’ states. Using the function "DisplayLED" to set LEDs to the pattern corresponding to the variable .
+請構建一個包含 4 個低態有效 LED 的電路。 也就是說，當相應的 GPIO 引腳輸出高電位（VDD）時，LED 將關閉，而當接收到低電位（VSS）時，LED 將被打開。接著，參考章節投影片，完成週邊裝置匯流排（AHB2）及 GPIO 接腳的初始化。接著，完成以下程式碼。利用 "leds" 這個變數紀錄目前位移數值，並使用 "DisplayLED" 函式將 LED 設置為與變數對應的圖案。
+
 ## DEMO Cheetsheet
 
 >Question 1-1: What is the memory-mapped I/O (MMIO)? What are its pros and cons?
