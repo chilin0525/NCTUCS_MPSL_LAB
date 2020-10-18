@@ -122,7 +122,10 @@ PUPO: 上拉電阻或是下拉電阻
 .equ GPIOA_ODR, 0x48000014
 
 main:
-
+	mov r0,#0x1
+	ldr r1, =RCC_AHB2ENR
+	str r0, [r1]
+	
 	movs r0, #0x400
 	ldr  r1, =GPIOA_MODER
 	ldr	 r2, [r1]
