@@ -128,7 +128,7 @@ main:
 	
 	movs r0, #0x400
 	ldr  r1, =GPIOA_MODER
-	ldr	 r2, [r1]
+	ldr  r2, [r1]
 	and  r2, #0xFFFFF3FF
 	orrs r2, r2, r0
 	str  r2, [r1]
