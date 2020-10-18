@@ -42,6 +42,14 @@ CPU具有特殊的指令，這些指令下達input或是output時某些接腳就
 
 需要先打開port A -> 再config port A -> 再input output port A
 
+![](https://i.imgur.com/l9kCA1I.png)
+![](https://i.imgur.com/w7hXcRN.png)
+![](https://i.imgur.com/pTX1qHI.png)
+![](https://i.imgur.com/BJkhHdo.png)
+![](https://i.imgur.com/mdKGqAs.png)
+![](https://i.imgur.com/XXM5pak.png)
+
+
 <br>
 
 ## Floating input v.s Pull-up/Pull-down input
