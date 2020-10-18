@@ -11,7 +11,7 @@
 	.equ GPIOB_OSPEEDR, 0x48000408
 	.equ GPIOB_PUPDR, 0x4800040C
 	.equ GPIOB_ODR, 0x48000414
-	.equ delay, 5200000
+	.equ delay, 3999995
 
 main:
 	BL GPIO_init
@@ -123,6 +123,6 @@ Delay:
 LOOP1:
     sub r12,r12,#5 // 1
     cmp r12,#0 //  1
-    bge LOOP1 //1 >=  
+    bgt LOOP1 //3 >
 
-   	BX LR // 1
+   	BX LR // 3
