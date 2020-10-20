@@ -58,23 +58,30 @@ REF: [Memory mapped I/O vs Port mapped I/O](https://stackoverflow.com/questions/
 現場要能夠重現規格書中指定的跑馬燈樣式。必須要是 active low。透過 I/O register 面板觀察，亮燈時必須輸出訊號 0。
 
 Question:
+
 請說明你是如何得到（或計算）每個時間點的 LED 圖案？
+
 說說在 active low 電路中 led 是如何被連接的？
+
 (Coding) 請重新以 active high 的方式實作 3-1
 
 3.2 Push button switch
 >Requirement
-必須要可以暫停跟繼續。而不是 stop 或 reset。要能按壓按鈕使跑馬燈「暫停、繼續」三次，同學可以自己按按鈕。以下狀況出現超過三次則為未完成，將視情況扣分。按下按鈕後沒有偵測到訊號，即按下按鈕後沒有暫停 / 繼續。按下按鈕卻偵測到多次訊號。
+必須要可以暫停跟繼續。而不是 stop 或 reset。要能按壓按鈕使跑馬燈「暫停、繼續」三次，同學可以自己按按鈕。<br>
+以下狀況出現超過三次則為未完成，將視情況扣分。按下按鈕後沒有偵測到訊號，即按下按鈕後沒有暫停 / 繼續。按下按鈕卻偵測到多次訊號。
 
 Question
+
 說說怎麽做到讓跑馬燈暫停再繼續的？
+
 請說明是如何實作 debounce 的？
 
 3.3 combination lock
 >Requirement
-必須要使用網絡電阻(排阻)
-必須是 active low，即導通開關後收到的訊號為 0。
-助教隨機設定3組密碼且均能依照密碼正確性閃出對應的燈號。
+必須要使用網絡電阻(排阻)<br>
+必須是 active low，即導通開關後收到的訊號為 0。<br>
+助教隨機設定3組密碼且均能依照密碼正確性閃出對應的燈號。<br>
 
 Question
+
 說說排組如何使用及如何用一個網絡電阻接出電路圖上方的四個電阻？
