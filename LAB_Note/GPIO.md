@@ -12,6 +12,11 @@ IO裝置的溝通是透過CPU，但對CPU而言只認記憶體，**透過記憶�
 
 <br>
 
+## Port Address
+
+![](https://i.imgur.com/AUmeHsh.png)
+
+
 ## IO方式
 
 ### Port-Mapped I/O (PMIO)
