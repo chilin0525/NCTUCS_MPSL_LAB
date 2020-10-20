@@ -53,6 +53,7 @@ CPU具有特殊的指令，這些指令下達input或是output時某些接腳就
 ![](https://i.imgur.com/BJkhHdo.png)
 ![](https://i.imgur.com/mdKGqAs.png)
 ![](https://i.imgur.com/XXM5pak.png)
+![](https://i.imgur.com/OrI51UP.png)
 
 
 <br>
