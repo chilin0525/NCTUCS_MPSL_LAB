@@ -162,6 +162,57 @@ L1:
 
 注意設定Output Register時的設定方法，不可以去影響到其他人
 
+外接LED燈實驗:
+
+藍線接地，橘色則是接到板子Pin角PC8的位置
+
+![](https://i.imgur.com/IAiks1I.jpg)
+
+程式碼如下:
+
+```assembly
+	.syntax unified
+	.cpu cortex-m4
+	.thumb
+.data
+	leds: .byte 0
+.text
+	.global main
+	.equ RCC_AHB2ENR, 0x4002104C
+	.equ GPIOB_MODER, 0x48000400
+	.equ GPIOB_OTYPER, 0x48000404
+	.equ GPIOB_OSPEEDR, 0x48000408
+	.equ GPIOB_PUPDR, 0x4800040C
+	.equ GPIOB_ODR, 0x48000414
+	.equ GPIOC_MODER, 0x48000800
+	.equ GPIOC_ODR, 0x48000814
+	.equ delay_time, 4000000
+
+main:
+    BL GPIO_init
+
+Loop:
+    B Loop
+
+GPIO_init:
+   mov R0,#4
+   ldr r1,=RCC_AHB2ENR
+   str r0,[r1]
+
+   mov r0,0x00010000
+   ldr r1,=GPIOC_MODER
+   str r0,[r1]
+
+   ldr r1,=GPIOC_ODR
+   mov r0,0x00000100
+   str r0,[r1]
+
+   bx lr
+
+```
+
+<br>
+
 ## 設定GPIO output Register
 
 如上述，在設定GPIO output register時可以使用特定方法避免直接mov資料進去ODR裏頭
