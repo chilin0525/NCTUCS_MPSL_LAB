@@ -29,29 +29,49 @@ GPIO pins.Then, complete the program below and use the variable "leds" to record
 
 ## DEMO Cheetsheet
 
+### Question 1-1 
 >Question 1-1: What is the memory-mapped I/O (MMIO)? What are its pros and cons?
 什麼是 memory mapped I/O (MMIO)？ 它的優缺點是什麼？
 
 
-| MMIO | 優  | 缺  |
+|  | 優  | 缺  |
 |:---- | --- |:--- |
-|      | 需要一段Physical memory address保留給IO<br>犧牲了可以使用的memory address    |     |
+| MMIO     | 可以直接透過memory對IO進行操作    | 需要一段Physical memory address保留給IO<br>犧牲了可以使用的memory address     |
 
 <br>
 
+### Question 1-2
 >Question 1-2: What is the port-mapped I/O (PMIO)? What are its pros and cons?
 什麼是 port-mapped I/O (PMIO)？ 它的優缺點是什麼？
 
 | PMIO | 優  | 缺  |
 |:---- | --- |:--- |
-|      | IO與memory分開<br>可以使用的memory address較多也較為安全    |     |
+|      | IO與memory分開<br>可以使用的memory address較多也較為安全    |  需要特殊指令才能進行IO   |
 
 <br>
 
 REF: [Memory mapped I/O vs Port mapped I/O](https://stackoverflow.com/questions/15371953/memory-mapped-i-o-vs-port-mapped-i-o)
 
+### Question 1-3
 >Question 1-3: When we set GPIO pin to the input mode, we also need to config the GPIOx_PUPDR register to pull-up, pull-down or floating (non-pull-up, non-pull-down). What's the effect of these settings?
 當我們將 GPIO pin 設成 input mode 的時候，還需要將 GPIOx_PUPDR 設成上拉，下拉或浮動（非上拉、非下拉）。這些設置有什麼作用？
+
+- Floating input
+(input為記憶體方接收來自設備的訊號源) 某個pin被設定為input mode會處於input impedance(輸入高阻抗狀態)，當input pin處於高阻抗的模式下，若沒有外部訊號源近來，此時是無法確定pin的狀態(不能確定現在處在高電位或低電位)，除非有外部訊號來驅動電路。總結，input電位狀態完全是由外部訊號來決定，沒有訊號驅動的話，就會呈現高阻抗狀態。
+
+可能造成的影響: 造成設備發生誤動作
+解法: Pull-up/Pull-down input
+
+- l-up/Pull-down input
+為什麼需要上拉電阻或是下拉電阻?
+
+避免發生上述float狀態，無法判斷按鈕有按下或是沒有按下。
+
+上述floating在沒有外部訊號驅動的情況下是呈現高阻抗狀態(無法確定電位狀態=>不能明確表示現在值是0或1)，如果我們需要這個pin有一個明確的預設狀態時，必須借助pull-up(pull-down)resistor來做調整，在pull-up resistor(**pull-up外接高電壓，也就是電阻一端連接Pin，一端連接+或VCC，按鈕一端接pin一端接GND，所以按鈕開關沒按下的時候讀取是HIGH，按下開關後會讀取到LOW**。pull-down通常會接地)讓pin的維持在明確的高電壓狀態 **pull-down則是讓pin維持在低電壓狀態，此時按鈕開關一端接到pin,另一端接到+ VCC，這樣在按鈕開關沒有按下時,讀取pin答案是LOW,當按下按鈕時,讀取pin則會得到HIGH**。 舉例來說，如果我們定電壓在3-4 V之間是1的狀態，0-1之間是0的狀態，高阻抗的時候，電壓是不明確的，有可能電壓值會落在1-3之間的不明確地帶，甚至是沒有在任何一個狀態維持一段時間，此時的狀態是未定的，但如果我們加入pull-up resistor的話，這個pin接受來自pull-up另一端的電壓供應，讓pin至少維持在3v以上時，我們就可以確定在沒有外部訊號驅動時，pin是維持在高電位狀態。
+
+總結: Pull-up/Pull-down分別表示預設為High/Low。對應的外部設備動作，pull-up 隱含設備有動作時會拉 Low，pull-down 隱含設備動作時會拉 high
+
+<br>
 
 ### 3.1 LED scroller
 >Requirement
@@ -59,17 +79,27 @@ REF: [Memory mapped I/O vs Port mapped I/O](https://stackoverflow.com/questions/
 
 Question:
 
-請說明你是如何得到（或計算）每個時間點的 LED 圖案？
+#### 請說明你是如何得到（或計算）每個時間點的 LED 圖案？
 
-說說在 active low 電路中 led 是如何被連接的？
+<br>
+
+#### 說說在 active low 電路中 led 是如何被連接的？
 
 ![](https://i.imgur.com/AQbACfN.png)
 
 Ref:
 1. [聯發科Linkit 7688 （二）GPIO基本操作與C語言程式設計](https://itw01.com/2GIQSEN.html)
-2. [](http://coopermaa2nd.blogspot.com/2011/05/led-active-low-led.html)
+2. [低態動作 LED (Active Low LED)](http://coopermaa2nd.blogspot.com/2011/05/led-active-low-led.html)
 
-(Coding) 請重新以 active high 的方式實作 3-1
+<br>
+
+#### (Coding) 請重新以 active high 的方式實作 3-1
+
+1. 反轉01
+2. LED燈反轉
+3. 電路改接到GND
+
+<br>
 
 ### 3.2 Push button switch
 >Requirement
