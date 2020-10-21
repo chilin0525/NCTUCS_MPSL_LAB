@@ -16,10 +16,12 @@
             * [說說在 active low 電路中 led 是如何被連接的？](#說說在-active-low-電路中-led-是如何被連接的？)
             * [(Coding) 請重新以 active high 的方式實作 3-1](#coding-請重新以-active-high-的方式實作-3-1)
         * [3.2 Push button switch](#32-push-button-switch)
+            * [說說怎麽做到讓跑馬燈暫停再繼續的？](#說說怎麽做到讓跑馬燈暫停再繼續的？)
+            * [請說明是如何實作 debounce 的？](#請說明是如何實作-debounce-的？)
         * [3.3 combination lock](#33-combination-lock)
+            * [說說排組如何使用及如何用一個網絡電阻接出電路圖上方的四個電阻？](#說說排組如何使用及如何用一個網絡電阻接出電路圖上方的四個電阻？)
 
 [Created By README_Table_of_Content_Generator By Chilin😎️😎️😎️](https://github.com/chilin0525/README_Table_of_Content_Generator)
-
 
 ## Spec Question
 
@@ -127,15 +129,16 @@ Ref:
 必須要可以暫停跟繼續。而不是 stop 或 reset。要能按壓按鈕使跑馬燈「暫停、繼續」三次，同學可以自己按按鈕。<br>
 以下狀況出現超過三次則為未完成，將視情況扣分:<br>按下按鈕後沒有偵測到訊號，即按下按鈕後沒有暫停 / 繼續。<br>按下按鈕卻偵測到多次訊號。
 
-Question
 
-說說怎麽做到讓跑馬燈暫停再繼續的？
+#### 說說怎麽做到讓跑馬燈暫停再繼續的？
 
-請說明是如何實作 debounce 的？
+#### 請說明是如何實作 debounce 的？
 
 兩種方法: 
 1. 先delay一段時間再看
 2. 取多次1或0
+
+<br>
 
 ### 3.3 combination lock
 >Requirement
@@ -143,6 +146,17 @@ Question
 必須是 active low，即導通開關後收到的訊號為 0。<br>
 助教隨機設定3組密碼且均能依照密碼正確性閃出對應的燈號。<br>
 
-Question
+#### 說說排組如何使用及如何用一個網絡電阻接出電路圖上方的四個電阻？
 
-說說排組如何使用及如何用一個網絡電阻接出電路圖上方的四個電阻？
+(type:A102J)
+
+![](https://i.imgur.com/NNfuTbN.png)
+
+排阻就是若干個參數完全相同的電阻，它們的一個引腳都連到一起，作為公共引腳，其餘引腳正常引出。所以如果一個排阻是由n個電阻構成的，那麼它就有n+1隻引腳，一般來說，最左邊的那個是公共引腳。它在排阻上一般用一個色點標出來。
+
+第一部分電路類型: A-所有電阻共用一端，公共端從左端（第1引腳）
+第二部分引腳數: 4~14 未給
+第三部分阻值: 3位數字（第1、2位為有效數，第3位為有效數後面0的個數，如102表示1000Ω）
+第四部分誤差
+
+![](https://i.imgur.com/F28yYbe.png)
