@@ -160,3 +160,5 @@ Ref:
 第四部分誤差
 
 ![](https://i.imgur.com/F28yYbe.png)
+
+ref: [排阻結構最全總結](https://kknews.cc/zh-tw/news/y8nnrma.html)
