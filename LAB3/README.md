@@ -63,6 +63,12 @@ Question:
 
 說說在 active low 電路中 led 是如何被連接的？
 
+![](https://i.imgur.com/AQbACfN.png)
+
+Ref:
+1. [聯發科Linkit 7688 （二）GPIO基本操作與C語言程式設計](https://itw01.com/2GIQSEN.html)
+2. [](http://coopermaa2nd.blogspot.com/2011/05/led-active-low-led.html)
+
 (Coding) 請重新以 active high 的方式實作 3-1
 
 ### 3.2 Push button switch
@@ -75,6 +81,10 @@ Question
 說說怎麽做到讓跑馬燈暫停再繼續的？
 
 請說明是如何實作 debounce 的？
+
+兩種方法: 
+1. 先delay一段時間再看
+2. 取多次1或0
 
 ### 3.3 combination lock
 >Requirement
