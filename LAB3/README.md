@@ -1,5 +1,26 @@
 # LAB3
 
+================Table of Content================
+
+* [LAB3](#lab3)
+    * [Spec Question](#spec-question)
+        * [P1 LED scroller](#p1-led-scroller)
+        * [P2](#p2)
+        * [P3](#p3)
+    * [DEMO Cheetsheet](#demo-cheetsheet)
+        * [Question 1-1 ](#question-1-1-)
+        * [Question 1-2](#question-1-2)
+        * [Question 1-3](#question-1-3)
+        * [3.1 LED scroller](#31-led-scroller)
+            * [請說明你是如何得到（或計算）每個時間點的 LED 圖案？](#請說明你是如何得到（或計算）每個時間點的-led-圖案？)
+            * [說說在 active low 電路中 led 是如何被連接的？](#說說在-active-low-電路中-led-是如何被連接的？)
+            * [(Coding) 請重新以 active high 的方式實作 3-1](#coding-請重新以-active-high-的方式實作-3-1)
+        * [3.2 Push button switch](#32-push-button-switch)
+        * [3.3 combination lock](#33-combination-lock)
+
+[Created By README_Table_of_Content_Generator By Chilin😎️😎️😎️](https://github.com/chilin0525/README_Table_of_Content_Generator)
+
+
 ## Spec Question
 
 ### P1 LED scroller
