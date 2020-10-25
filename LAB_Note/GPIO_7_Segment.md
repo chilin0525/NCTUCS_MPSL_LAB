@@ -43,8 +43,10 @@
 
 ![](https://i.imgur.com/OkjW4oU.png)
 
+why 控制八個燈不是用8個bit就足夠了? 而需要給予16bit--> 因為還包含了一些控制命令，包含模式的選擇等等
+
 - D0-D7: 直接秀在顯示器上
-- D8-D11: 共四個bit，最多可以表達16種功能，可以用來控制:
+- D8-D11: 共四個bit，最多可以表達16種功能，可以用來控制(control digit):
     ADdress register decoder:
     - Shutdown register: 
     - Mode register:
@@ -55,7 +57,9 @@
 ![](https://i.imgur.com/8Ob3Doc.png)
 
 DIN: 如同上述所說的，data是要series的input進來非平行地
+
 CS: 把輸入完data拿回去看
+
 CLK: Rising edge時做取樣，data會移到internal shift register
 
 ![](https://i.imgur.com/7UAHiGv.png)
@@ -64,19 +68,22 @@ CLK: Rising edge時做取樣，data會移到internal shift register
 
 ![](https://i.imgur.com/bIKbdjH.png)
 
+進到shutdown後若data為0-->表示全部關掉
+
 ![](https://i.imgur.com/Fix9wQA.png)
 
 decode mode : 方便快速秀0-9這幾個數字，或是秀出單一個數字例如:1或2之類的，不用特地再去做一些每個燈耀亮不亮的設定，有點類似使用他事先寫好的某些圖案，現在跟他說我要秀出他圖案手冊(Code B)裡面的哪些圖案
 
 若選擇decode mode之後再選擇:
 1. no decode : 表示所以燈要步要亮都由我自己決定:
-2. code B decode for digit 0 no decode for digits 7-1: 第0 digit用code B的，7-1我自己管
-3. code B decode for digit 3-0 no decode for digits 7-4:第3-0 digit用code B的，7-4我自己管
+2. code B decode for digit 0 no decode for digits 7-1: 第0 digit用code B的，7-1我自己設定
+3. code B decode for digit 3-0 no decode for digits 7-4:第3-0 digit用code B的，7-4我自己設定
 4. code B decode for digit 7-0:通通用code B
 
 <br>
 
 Code Book，也就是上面提到類似圖案手冊的部分:
+
 ![](https://i.imgur.com/Phy5T4Z.png)
 
 <br>
