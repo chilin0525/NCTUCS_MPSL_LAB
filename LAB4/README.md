@@ -15,6 +15,9 @@
 
 ## 3.3. Show the Fibonacci number
 
+![](https://i.imgur.com/ipjseZy.png)
+
+
 <br>
 
 ## DEMO cheat_sheet
