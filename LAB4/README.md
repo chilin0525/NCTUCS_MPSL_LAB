@@ -1,5 +1,25 @@
 # LAB4
 
+================Table of Content================
+
+* [LAB4](#lab4)
+    * [3.1. Practice of Max7219 and 7-Seg LED with no-decode mode](#31-practice-of-max7219-and-7-seg-led-with-no-decode-mode)
+    * [3.2. Practice of Max7219 and 7-Seg LED with code B decode mode](#32-practice-of-max7219-and-7-seg-led-with-code-b-decode-mode)
+    * [3.3. Show the Fibonacci number](#33-show-the-fibonacci-number)
+    * [DEMO cheat_sheet](#demo-cheat_sheet)
+        * [Question 1: What’s the functions of DIN, CLK, CS pins on MAX7219 7-Seg LED?](#question-1-what’s-the-functions-of-din,-clk,-cs-pins-on-max7219-7-seg-led?)
+        * [Question 2: Each time we send a command to MAX7219, we need to encode our command into 2-bytes, Address, and Data. What are the functions of Address(D8~D15) and Data(D0~D7)?](#question-2-each-time-we-send-a-command-to-max7219,-we-need-to-encode-our-command-into-2-bytes,-address,-and-data-what-are-the-functions-of-addressd8~d15-and-datad0~d7?)
+        * [4-1 : Code B decode mode 並沒有 d 的符號。因此必需要自己手刻 pattern。說說 pattern 是如何決定的。即 D0~D7 要如何設定？](#4-1--code-b-decode-mode-並沒有-d-的符號。因此必需要自己手刻-pattern。說說-pattern-是如何決定的。即-d0~d7-要如何設定？)
+        * [4-1 : live coding](#4-1--live-coding)
+        * [4-2 請說明 code B decode mode 的 pattenr 是如何決定的？即 D0~D7 如何設置？](#4-2-請說明-code-b-decode-mode-的-pattenr-是如何決定的？即-d0~d7-如何設置？)
+        * [4-2(Coding) 請說明是如何將沒用到的digits 設成空白？如果使用 Scan Limit 請改用 code B decode Mode 的 Blank。反之請換成 code b decode mode blank。其他方法請說明之。](#4-2coding-請說明是如何將沒用到的digits-設成空白？如果使用-scan-limit-請改用-code-b-decode-mode-的-blank。反之請換成-code-b-decode-mode-blank。其他方法請說明之。)
+        * [4-3 請逐行說明 GPIO_init 做了哪些設定](#4-3-請逐行說明-gpio_init-做了哪些設定)
+        * [4-3 請說明怎麼做到動態調整顯示的位數？ 即左邊空白的部分如何動態做調整？](#4-3-請說明怎麼做到動態調整顯示的位數？-即左邊空白的部分如何動態做調整？)
+        * [4-3 如何將我們的結果轉換成 digits，並依序顯示在 7-seg LED 的不同位置上？](#4-3-如何將我們的結果轉換成-digits，並依序顯示在-7-seg-led-的不同位置上？)
+
+[Created By README_Table_of_Content_Generator By Chilin😎️😎️😎️](https://github.com/chilin0525/README_Table_of_Content_Generator)
+
+
 ## 3.1. Practice of Max7219 and 7-Seg LED with no-decode mode
 
 ![](https://i.imgur.com/msyG0Zr.png)
