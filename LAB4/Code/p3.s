@@ -168,7 +168,7 @@ fib:    //copy from lab1
         BX LR
 
 GPIO_init:  
-    mov r0,7                                    // Open BUS for port A
+    mov r0,5                                    // Open BUS for port A
     ldr r1,=RCC_AHB2ENR
     str r0,[r1]
 
