@@ -44,9 +44,20 @@
 
 ### Question 1: What’s the functions of DIN, CLK, CS pins on MAX7219 7-Seg LED?MAX7219 7-Seg LED 上的 DIN, CLK, CS 腳位分別有什麼作用？
 
+如何做到僅以三個接腳就可以與多個燈溝通 : 原本的解法像是平行的給予值告訴她要步要亮，現在的做法是將原本平行的值改成序列式(series)地給予，例如原本要讓燈135亮，那現在就變成給予一個135的串列值讀取，那序列式給予的最大問題就是什麼時間點應該要去讀取值的內容，例如我們今天有CLK分別是1跟0的訊號，但是如果我們在極小的時間點去查看可能就會變成100萬的1跟100萬的0，然CLK就是負責查看的時間點
+
+DIN: 如同上述所說的，data是要series的input進來非平行地
+
+CS: 把輸入完data拿回去看
+![](https://i.imgur.com/8Ob3Doc.png)
+
+
 <br>
 
 ### Question 2: Each time we send a command to MAX7219, we need to encode our command into 2-bytes, Address, and Data. What are the functions of Address(D8 ~ D15) and Data(D0 ~ D7)?每次向MAX7219發送命令時，都需要將命令編碼為2個字節，地址和數據。 地址（D8 ~ D15）和數據（D0 ~ D7）的功能是什麼？
+
+
+![](https://i.imgur.com/7UAHiGv.png)
 
 <br>
 
