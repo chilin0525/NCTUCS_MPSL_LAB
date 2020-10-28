@@ -2,7 +2,7 @@
 	.cpu cortex-m4
 	.thumb
 .data
-	arr: .byte 0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x72, 0x7F, 0x7B, 0x77, 0x1F, 0x4E, 0x3D, 0x4F, 0x47
+	arr: .byte 0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x72, 0x7F, 0x73, 0x77, 0x1F, 0x4E, 0x3D, 0x4F, 0x47
 .text
 	.global main
 	.equ RCC_AHB2ENR,0x4002104C
@@ -15,7 +15,7 @@
 	.equ DIN,0b00100000 // DIN <===> pa5
 	.equ CS,0b01000000  // CS  <===> pa6
 	.equ CLK,0b10000000 // CLK <===> pa7
-	
+
     .equ DECODE_MODE,0b100100000000
 	.equ INTENSITY,0b101000000000
 	.equ SCAN_LIMIT,0b101100000000
@@ -60,7 +60,7 @@ DisplayDigit:
     ldrb r1, [r1,r11]       // load r1[r11] to r1
 
     mov r0, 0b000100000000  // set r0 = Digit 0 (r8-r15:1 r0-r7:0)
-    BL MAX7219Send      
+    BL MAX7219Send
 
     add r11,r11,1   // if(r11>=16) reset
     cmp r11,16
@@ -82,7 +82,7 @@ MAX7219Send:
     ldr r5,=GPIOA_BSRR
     ldr r6,=GPIOA_BRR
 
-    LOOP1:  
+    LOOP1:
         str r4,[r6]     // set clk = 0
 
         and r1,r0,r7
