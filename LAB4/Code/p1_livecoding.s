@@ -28,6 +28,7 @@ main:
     BL GPIO_init
     BL max7219_init
     mov r11,0           // r11 : Index for display
+    BL TurnOff
 
 loop:                   // Display Loop
     BL DisplayDigit
