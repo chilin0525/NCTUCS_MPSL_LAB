@@ -24,20 +24,21 @@ int display(int data){
 
 // pull-up: no:1 push:0
 
+
 void keypad_init(){
     RCC -> AHB2ENR = RCC -> AHB2ENR | 0x7;
 
-    GPIOA -> MODER = GPIOA -> MODER & 0b11111111111111110101011111111111;
-    GPIOA -> MODER = GPIOA -> MODER | 0b11111111111111110101011111111111;
+    //GPIOA -> MODER = GPIOA -> MODER & 0b11111111111111110101011111111111;
+    GPIOA -> MODER = 0b11111111111111110101011111111111;
     GPIOA -> ODR   = 0;
     /*
     //  for max7219 
     */
 
-    GPIOB -> MODER = GPIOB -> MODER & 0x0;
-    GPIOB -> MODER = GPIOB -> MODER | 0x0;
-    GPIOB -> PUPDR = GPIOB -> PUPDR | 0b00000000111111; // clear 
-    GPIOB -> PUPDR = GPIOB -> PUPDR | 0b10101010000000; // pull-dowm mode
+    //GPIOB -> MODER = GPIOB -> MODER & 0x0;
+    GPIOB -> MODER = 0x0;
+    //GPIOB -> PUPDR = GPIOB -> PUPDR | 0b00000000111111; // clear 
+    GPIOB -> PUPDR = 0b10101010000000; // pull-dowm mode
     GPIOB -> IDR = 0;
     /*
     //  pb3-6 : input
@@ -47,8 +48,7 @@ void keypad_init(){
     //  X3 == pb3 == pin1 == col4
     */
    
-    GPIOC -> MODER = GPIOC -> MODER & 0b01010101;
-    GPIOC -> MODER = GPIOC -> MODER | 0b01010101;
+    GPIOC -> MODER = 0b01010101;
     GPIOC -> ODR = 0;
     /*
     //  pc0-3 : output to test
@@ -59,6 +59,10 @@ void keypad_init(){
     */
 }
 
+
+
+
+
 int main(){
     keypad_init();
 	max7219_init();
@@ -67,18 +71,24 @@ int main(){
     max7219_send(2<<8,0xf);
     while (1){
         int i=0,j=0;
-        int flag = 0;
+        int dis_value = -1;
+        int bool = 0;
         for(i=0;i<4;i++){
+            GPIOC -> ODR = (1 << i) ;
             for(j=0;j<4;j++){
-                GPIOC -> ODR = (1 << i) ;
-                if( (GPIOB -> IDR >> (6-j)) & 0x1 == 1){
-                    display(keypad_value[i][j]);
-                    flag = 1;
+                int tmp = GPIOB -> IDR & 0b1111000;
+                if( (tmp >> (6-j)) & 0x1){
+                    dis_value = keypad_value[i][j];
                     break;
                 } 
-                max7219_send(1<<8,0xf);
-                max7219_send(2<<8,0xf);
             }
+            if(dis_value!=-1)break;
+        }
+        if(dis_value!=-1){
+            display(dis_value);
+        } else {
+            max7219_send(1<<8,0xf);
+            max7219_send(2<<8,0xf);            
         }
     }
     return 0;
