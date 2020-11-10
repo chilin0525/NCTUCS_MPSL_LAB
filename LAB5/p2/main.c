@@ -59,10 +59,6 @@ void keypad_init(){
     */
 }
 
-
-
-
-
 int main(){
     keypad_init();
 	max7219_init();
@@ -71,24 +67,17 @@ int main(){
     max7219_send(2<<8,0xf);
     while (1){
         int i=0,j=0;
-        int dis_value = -1;
-        int bool = 0;
         for(i=0;i<4;i++){
             GPIOC -> ODR = (1 << i) ;
             for(j=0;j<4;j++){
                 int tmp = GPIOB -> IDR & 0b1111000;
                 if( (tmp >> (6-j)) & 0x1){
-                    dis_value = keypad_value[i][j];
-                    break;
-                } 
+                    display(keypad_value[i][j]);
+                } else {
+                    max7219_send(1<<8,0xf);
+                    max7219_send(2<<8,0xf);            
+                }
             }
-            if(dis_value!=-1)break;
-        }
-        if(dis_value!=-1){
-            display(dis_value);
-        } else {
-            max7219_send(1<<8,0xf);
-            max7219_send(2<<8,0xf);            
         }
     }
     return 0;
