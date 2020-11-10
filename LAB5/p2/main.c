@@ -17,7 +17,7 @@ int display(int data){
         max7219_send(2<<8,0xF);
     } else {
         max7219_send(1<<8,data%10);
-        max7219_send(2<<8,data/10);
+        max7219_send(2<<8,1);
     }
     return 0;
 }
@@ -47,8 +47,8 @@ void keypad_init(){
     //  X3 == pb3 == pin1 == col4
     */
    
-    GPIOC -> MODER = GPIOC -> MODER & 01010101;
-    GPIOC -> MODER = GPIOC -> MODER | 01010101;
+    GPIOC -> MODER = GPIOC -> MODER & 0b01010101;
+    GPIOC -> MODER = GPIOC -> MODER | 0b01010101;
     GPIOC -> ODR = 0;
     /*
     //  pc0-3 : output to test
@@ -63,17 +63,21 @@ int main(){
     keypad_init();
 	max7219_init();
 	
+    max7219_send(1<<8,0xf);
+    max7219_send(2<<8,0xf);
     while (1){
         int i=0,j=0;
+        int flag = 0;
         for(i=0;i<4;i++){
             for(j=0;j<4;j++){
                 GPIOC -> ODR = (1 << i) ;
-                if(GPIOB -> IDR >> (6-j) & 0x1){
+                if( (GPIOB -> IDR >> (6-j)) & 0x1 == 1){
                     display(keypad_value[i][j]);
-                } else {
-                    max7219_send(1<<8,0xf);
-                    max7219_send(2<<8,0xf);
-                }
+                    flag = 1;
+                    break;
+                } 
+                max7219_send(1<<8,0xf);
+                max7219_send(2<<8,0xf);
             }
         }
     }
