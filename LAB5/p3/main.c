@@ -17,7 +17,7 @@ int display(int data){
         max7219_send(2<<8,0xF);
     } else {
         max7219_send(1<<8,data%10);
-        max7219_send(2<<8,1);
+        max7219_send(2<<8,data/10);
     }
     return 0;
 }
