@@ -7,10 +7,7 @@ int keypad_value[4][4] = {
         {7, 8, 9, 12},
         {15, 0, 14, 13}
     };
-
 int flag[4][4] = {0};
-
-
 extern void max7219_init();
 extern void max7219_send(int address,int data);
 
@@ -20,7 +17,7 @@ int display(int data){
         max7219_send(2<<8,0xF);
     } else {
         max7219_send(1<<8,data%10);
-        max7219_send(2<<8,data/10);
+        max7219_send(2<<8,1);
     }
     return 0;
 }
@@ -50,7 +47,7 @@ void keypad_init(){
     //  X2 == pb4 == pin2 == col3
     //  X3 == pb3 == pin1 == col4
     */
-   
+
     GPIOC -> MODER = 0b01010101;
     GPIOC -> ODR = 0;
     /*
@@ -68,32 +65,53 @@ int main(){
 	
     max7219_send(1<<8,0xf);
     max7219_send(2<<8,0xf);
-    int sum = 0;
-    
     while (1){
+        GPIOB -> MODER = 0x0;
+        GPIOB -> PUPDR = 0b10101010000000; // pull-dowm mode
+        GPIOB -> IDR = 0;
+        GPIOC -> MODER = 0b01010101;
+        GPIOC -> ODR = 0;
         int i=0,j=0;
+        int sum = 0;
+        for(i=0;i<4;i++){
+            for(j=0;j<4;j++){
+                flag[i][j] = 0;
+            }
+        }
         for(i=0;i<4;i++){
             GPIOC -> ODR = (1 << i) ;
             for(j=0;j<4;j++){
                 int tmp = GPIOB -> IDR & 0b1111000;
                 if( (tmp >> (6-j)) & 0x1){
-                    if(!flag[i][j]){
-                        flag[i][j] = 1;
-                        sum += keypad_value[i][j];
-                    }
-                } else {
-                    if(flag[i][j]){
-                        flag[i][j] = 0;
-                        sum -= keypad_value[i][j];
+                    sum += keypad_value[i][j];
+                    flag[i][j] = 1;
+                }
+            }
+        }
+
+        GPIOB -> MODER = 0b01010101000000;
+        GPIOB -> ODR   = 0;
+        GPIOC -> MODER = 0;
+        GPIOC -> PUPDR = 0b10101010;
+        GPIOC -> IDR   = 0;
+    
+        for(i=0;i<4;i++){
+            GPIOB -> ODR = (1 << (6-i) ) ;
+            for(j=0;j<4;j++){
+                int tmp = GPIOC -> IDR & 0b1111;
+                if( (tmp >> j) & 0x1){
+                    if(!flag[j][i]){
+                        sum += (keypad_value[j][i]);
                     }
                 }
             }
-            if(sum==0){                
-                max7219_send(1<<8,0xf);
-                max7219_send(2<<8,0xf);
-            } else {
-                display(sum);
-            }
+        }
+
+        if(sum!=0){
+            display(sum);
+        } else {
+            max7219_send(1<<8,0xf);
+            max7219_send(2<<8,0xf);
         }
     }
     return 0;
