@@ -6,6 +6,7 @@
 
 > Question 2: In stm32l476xx.h, variables are defined with the keyword "volatile"(__IO). Please describe its function? What problems can be avoided? 在 stm32l476xx.h 中，變量被使用關鍵字 "volatile" (__IO) 來定義。 請說明它的功能是什麼？可以避免甚麼問題？
 
+
 <br>
 
 ## 3.1 Max7219 displayer
@@ -14,6 +15,11 @@
 
 >Question
 說說如何在 main.c 中呼叫 asm 實做的函式？需要做哪些的宣告，下哪些關鍵字、做哪些修改？
+
+1. 在 asm 中將 function 宣告為 global
+2. 將 asm 中的 main function 移除僅存 funtion
+3. 在 C 中宣告 function 為 extern function
+
 
 <br>
 
@@ -42,5 +48,7 @@ y3	15	0	14	13
 > Question
 (Coding) 同時按下兩個鍵時，改顯示 先按\<space\>後按\<space\>相加結果
 EX: 先按 13 再按 4 則顯示 １３　４　１７
-說說如何進行多按鍵偵測？
-說說如何判斷先按後按？
+
+> 說說如何進行多按鍵偵測？
+
+> 說說如何判斷先按後按？
