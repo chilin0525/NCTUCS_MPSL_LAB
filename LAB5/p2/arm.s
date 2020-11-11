@@ -71,7 +71,7 @@ max7219_init:
     BL max7219_send
 
     ldr r0,=#SCAN_LIMIT     // Use only 6 DIGIT of 7-segment
-    ldr r1,=#0x1            // only 2 digit
+    ldr r1,=#0x1
     BL max7219_send
 
     ldr r0,=#INTENSITY      // set intensity range(0,15)
