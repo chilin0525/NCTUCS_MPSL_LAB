@@ -1,3 +1,4 @@
+  
 #include "stm32l476xx.h"
 
 
@@ -119,7 +120,7 @@ int main(){
                             sum2 = (keypad_value[j][i]);
                             second = 0;
                         }
-                        flag[i][j] = 1;
+                        flag[j][i] = 1;
                     }
                 }
             }
