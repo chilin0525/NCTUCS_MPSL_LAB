@@ -213,7 +213,6 @@ int main(){
                 max7219_send(8<<8,0xf);
             }
         }
-
     }
     return 0;
 }
