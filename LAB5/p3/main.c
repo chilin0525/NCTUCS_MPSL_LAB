@@ -190,7 +190,6 @@ int main(){
         } else {                    // if ans <9
             max7219_send(1<<8,ans%10);
             max7219_send(2<<8,0xf); 
-            
             if(second==-1){         // if second==-1 : only pressed one 
                 max7219_send(3<<8,0xf);
                 max7219_send(4<<8,0xf); 
@@ -200,16 +199,13 @@ int main(){
                 max7219_send(8<<8,0xf);
             } else {                // if second!=-1 : pressed two
                 if(sum2%10==0){
-                max7219_send(3<<8,0xf);
-                } else {
                     max7219_send(3<<8,sum2%10);
+                    max7219_send(4<<8,0xf); // space
+                    max7219_send(5<<8,sum%10);
+                    max7219_send(6<<8,0xf); // space
+                    max7219_send(7<<8,0xf);
+                    max7219_send(8<<8,0xf);
                 }
-                
-                max7219_send(4<<8,0xf); // space
-                max7219_send(5<<8,sum%10);
-                max7219_send(6<<8,0xf); // space
-                max7219_send(7<<8,0xf);
-                max7219_send(8<<8,0xf);
             }
         }
 
