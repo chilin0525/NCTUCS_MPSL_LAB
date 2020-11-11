@@ -28,6 +28,8 @@ b = *p;
 
 使用之後任何為 ```volatile``` 的變數， compiler 將不可以做任何假設與推理，皆必須從mem address 取值，也就是不允許上述 **重複使用register中的值**
 
+[](https://liam.page/2018/01/18/volatile-in-C-and-Cpp/)
+
 <br>
 
 ## 3.1 Max7219 displayer
