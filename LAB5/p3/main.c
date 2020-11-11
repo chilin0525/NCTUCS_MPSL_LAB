@@ -73,28 +73,17 @@ int main(){
         GPIOC -> ODR = 0;
         int i=0,j=0;
         int sum = 0;
-        int sum2 = 0;
-        int first = -1;
-        int second = -1;
-
         for(i=0;i<4;i++){
             for(j=0;j<4;j++){
                 flag[i][j] = 0;
             }
         }
-
         for(i=0;i<4;i++){
             GPIOC -> ODR = (1 << i) ;
             for(j=0;j<4;j++){
                 int tmp = GPIOB -> IDR & 0b1111000;
                 if( (tmp >> (6-j)) & 0x1){
-                    if(first==-1){
-                        sum = (keypad_value[i][j]);
-                        first = 0;
-                    } else if(second==-1) {
-                        sum2 = (keypad_value[i][j]);
-                        second = 0;
-                    }
+                    sum += keypad_value[i][j];
                     flag[i][j] = 1;
                 }
             }
@@ -112,103 +101,18 @@ int main(){
                 int tmp = GPIOC -> IDR & 0b1111;
                 if( (tmp >> j) & 0x1){
                     if(!flag[j][i]){
-                        if(first==-1){
-                            sum = (keypad_value[j][i]);
-                            first = 0;
-                        } else if(second==-1) {
-                            sum2 = (keypad_value[j][i]);
-                            second = 0;
-                        }
-                        flag[i][j] = 1;
+                        sum += (keypad_value[j][i]);
                     }
                 }
             }
         }
 
-        int ans = sum + sum2;
-        
-        if(ans>=10){
-            max7219_send(1<<8,ans%10);
-            max7219_send(2<<8,ans/10);
-            max7219_send(3<<8,0xf); 
-            if(second==-1){     // if sum = x sum2 = x then all space
-                max7219_send(4<<8,0xf); 
-                max7219_send(5<<8,0xf);
-                max7219_send(6<<8,0xf); 
-                max7219_send(7<<8,0xf);
-                max7219_send(8<<8,0xf);
-            } else {
-                if(sum2>=10){    
-                max7219_send(4<<8,sum2%10);
-                max7219_send(5<<8,sum2/10);
-                max7219_send(6<<8,0xf); // space
-                    if(sum>=10){
-                        max7219_send(7<<8,sum%10);
-                        max7219_send(8<<8,sum/10);
-                    }else{
-                        max7219_send(7<<8,sum%10);
-                        max7219_send(8<<8,0xf);
-                    }
-                } else {
-                    if(sum2%10==0){ 
-                        max7219_send(4<<8,0xf);
-                    } else {
-                        max7219_send(4<<8,sum2%10);
-                    }
-                    max7219_send(5<<8,0xf); // space
-                    if(sum>=10){
-                        max7219_send(6<<8,sum%10);
-                        max7219_send(7<<8,sum/10);
-                        max7219_send(8<<8,0xf);
-                    }else{
-                        max7219_send(6<<8,sum%10);
-                        max7219_send(7<<8,0xf);
-                        max7219_send(8<<8,0xf);
-                    }
-                }
-            }
-        } else if(ans == 0){        // if sum = x sum2 = x then all space
-            if(second==-1 && first!=-1){    
-                max7219_send(1<<8,0);
-                max7219_send(2<<8,0xf); 
-                max7219_send(3<<8,0xf);
-                max7219_send(4<<8,0xf); 
-                max7219_send(5<<8,0xf);
-                max7219_send(6<<8,0xf); 
-                max7219_send(7<<8,0xf);
-                max7219_send(8<<8,0xf);
-            } else {
-                max7219_send(1<<8,0xf);
-                max7219_send(2<<8,0xf); 
-                max7219_send(3<<8,0xf);
-                max7219_send(4<<8,0xf); 
-                max7219_send(5<<8,0xf);
-                max7219_send(6<<8,0xf); 
-                max7219_send(7<<8,0xf);
-                max7219_send(8<<8,0xf);
-            }
-        } else {                    // if ans <9
-            max7219_send(1<<8,ans%10);
-            max7219_send(2<<8,0xf); 
-            if(second==-1){         // if second==-1 : only pressed one 
-                max7219_send(3<<8,0xf);
-                max7219_send(4<<8,0xf); 
-                max7219_send(5<<8,0xf);
-                max7219_send(6<<8,0xf); 
-                max7219_send(7<<8,0xf);
-                max7219_send(8<<8,0xf);
-            } else {                // if second!=-1 : pressed two
-                if(sum2%10==0){
-                    max7219_send(3<<8,sum2%10);
-                    max7219_send(4<<8,0xf); // space
-                    max7219_send(5<<8,sum%10);
-                    max7219_send(6<<8,0xf); // space
-                    max7219_send(7<<8,0xf);
-                    max7219_send(8<<8,0xf);
-                }
-            }
+        if(sum!=0){
+            display(sum);
+        } else {
+            max7219_send(1<<8,0xf);
+            max7219_send(2<<8,0xf);
         }
-
     }
     return 0;
 }
