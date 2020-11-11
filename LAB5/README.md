@@ -6,6 +6,27 @@
 
 > Question 2: In stm32l476xx.h, variables are defined with the keyword "volatile"(__IO). Please describe its function? What problems can be avoided? 在 stm32l476xx.h 中，變量被使用關鍵字 "volatile" (__IO) 來定義。 請說明它的功能是什麼？可以避免甚麼問題？
 
+考慮: 
+
+```c=
+int *p = /* ... */ ; 
+int a, b; 
+a = *p; 
+b = *p;
+```
+
+在一般情況下， compiler 在做最佳化的時候會發現到 a 跟 b 都要讀同一值，為了最佳化原本需要讀取兩次的情況就會變成從 p 讀取一次後讀到 CPU register 後重複利用給 b，也就是```a = *p = b```
+
+但如果考慮 MMIO , p 指向的是某個硬體設備, 那有可能會發生錯誤， 也就是 p 記憶體位置值改變的當下 b 還是給予原本的 a 值， 因此經果 compiler 優化的結果將不符合我們的預期
+
+```c=
+volatile  int *p = /* ... */ ; 
+int a, b; 
+a = *p; 
+b = *p;
+```
+
+使用之後任何為 ```volatile``` 的變數， compiler 將不可以做任何假設與推理，皆必須從mem address 取值，也就是不允許上述 **重複使用register中的值**
 
 <br>
 
