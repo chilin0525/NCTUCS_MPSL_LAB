@@ -1,4 +1,3 @@
-  
 #include "stm32l476xx.h"
 
 
@@ -63,27 +62,25 @@ void keypad_init(){
 int main(){
     keypad_init();
 	max7219_init();
+    int first_num = -1;
 	
-    max7219_send(1<<8,0xf);
-    max7219_send(2<<8,0xf);
     while (1){
         GPIOB -> MODER = 0x0;
         GPIOB -> PUPDR = 0b10101010000000; // pull-dowm mode
         GPIOB -> IDR = 0;
         GPIOC -> MODER = 0b01010101;
         GPIOC -> ODR = 0;
-        int i=0,j=0;
         int sum = 0;
         int sum2 = 0;
         int first = -1;
         int second = -1;
+        int i=0,j=0;
 
         for(i=0;i<4;i++){
             for(j=0;j<4;j++){
                 flag[i][j] = 0;
             }
-        }
-
+        }    
         for(i=0;i<4;i++){
             GPIOC -> ODR = (1 << i) ;
             for(j=0;j<4;j++){
@@ -97,7 +94,7 @@ int main(){
                         second = 0;
                     }
                     flag[i][j] = 1;
-                }
+                } 
             }
         }
 
@@ -121,8 +118,21 @@ int main(){
                             second = 0;
                         }
                         flag[j][i] = 1;
-                    }
-                }
+                    }   
+                } 
+            }
+        }
+
+        if(first_num==-1) first_num=sum;
+        if(first==-1 && second==-1){
+            first_num = -1;
+        }else if(first==0 && second==-1){
+            first_num = sum ;
+        }else if(first==0 && second ==0){
+            if(first_num!=sum){
+                int tmp = sum;
+                sum = first_num;
+                sum2 = tmp;
             }
         }
 
