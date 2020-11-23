@@ -1,6 +1,7 @@
 #include "stm32l476xx.h"
-
-#define TIME_SEC 2.99
+#include <math.h>
+#include <assert.h>
+#define TIME_SEC 1.03
 
 extern void GPIO_init();
 extern void max7219_init();
@@ -80,12 +81,45 @@ void DISPLAY_TIME(int TIM_INT,int TIM_FLO){
 
 void CNT_DONE(){while(1){}}
 
+int fractional_part_as_int(float number, int number_of_decimal_places) {
+    float dummy;
+    MUTIDISPLAY(568);
+
+    float frac = modf(number,&dummy);
+    return round(frac*pow(10,number_of_decimal_places));
+}
+
+long double round_f(long double number, int decimal_places){
+     assert(decimal_places > 0);
+
+     double power = pow(10, decimal_places-1);
+     number *= power;
+
+     return (number >= 0) ? ((long long)(number + 0.5))/power : ((long long)(number - 0.5))/power;
+}
+
 int main(){
     GPIO_init();
     max7219_init();
     DISPLAY_init();
+
+    double dummy;
+    double frac = modf(TIME_SEC,&dummy);
     int TIME_INT = (int)TIME_SEC;
-    int TIME_FLOAT = (TIME_SEC-(int)TIME_SEC)*100;
+
+    //int TIME_FLOAT = round(frac*pow(10,2));
+
+    assert(2 > 0);
+    double number = frac*pow(10,2);
+    double power = pow(10, 2-1);
+    number *= power;
+    int TIME_FLOAT = (number >= 0) ? ((long long)(number + 0.5))/power : ((long long)(number - 0.5))/power;
+
+    //int TIME_INT = (int)TIME_SEC;
+    //MUTIDISPLAY(1234);
+    //int TIME_FLOAT = fractional_part_as_int(TIME_SEC,2);
+    //MUTIDISPLAY(568);
+
     int SUM_INT = 0;
     Timer_init();
     Timer_start();
