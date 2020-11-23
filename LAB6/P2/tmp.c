@@ -53,8 +53,8 @@ void Timer_init(){
 }
 
 void Timer_start(){
-    TIM2->SR &= 0xFFFFFFFE;     // set to 0
     TIM2->EGR = 0x0001;    // re init cnt
+    TIM2->SR &= 0xFFFFFFFE;     // set to 0
     TIM2->CR1 |= 0x00000001;    // enable counter
 }
 
