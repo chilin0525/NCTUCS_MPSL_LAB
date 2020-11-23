@@ -45,7 +45,7 @@ int DEBOUNCE(){
 int tmpt=0;
 
 void Timer_init(){
-    RCC->AHB1ENR |= RCC_APB1ENR1_TIM2EN;    // enable TIM2
+    RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;    // enable TIM2
     TIM2->CR1 = 0;              // upcounter, disable counter, enable UEV(update event)
     TIM2->CNT = 0;
     TIM2->PSC = (uint32_t)999;  // 4M == 4000000/1000 = 4000
@@ -54,7 +54,7 @@ void Timer_init(){
 
 void Timer_start(){
     TIM2->SR &= 0xFFFFFFFE;     // set to 0
-    TIM2->EGR |= 0x00000001;    // re init cnt
+    TIM2->EGR = 0x0001;    // re init cnt
     TIM2->CR1 |= 0x00000001;    // enable counter
 }
 
@@ -95,12 +95,9 @@ int main(){
         } else if(TIM2->SR & 0x00000001){
             TIM2->SR &= 0xFFFFFFFE;     // set to 0
             SUM_INT = SUM_INT + 1;
-            MUTIDISPLAY(SUM_INT);
-            //DISPLAY_TIME(SUM_INT,TIM2->CNT/40);
+            DISPLAY_TIME(SUM_INT,TIM2->CNT/40);
         } else {
-            //DISPLAY_TIME(SUM_INT,TIM2->CNT/40);
-            MUTIDISPLAY(SUM_INT);
-
+            DISPLAY_TIME(SUM_INT,TIM2->CNT/40);
         }
     }
 
