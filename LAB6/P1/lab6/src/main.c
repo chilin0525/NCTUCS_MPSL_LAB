@@ -46,7 +46,7 @@ int DEBOUNCE(){
 
 void SET_CLK(int freq){
 
-	RCC -> CFGR = 0x00000000;
+	RCC -> CFGR &= 0xFFFFFFF0;
 
     // step1: set PLLON to 0 (disable)
     RCC -> CR &= 0xFEFFFFFF; 
