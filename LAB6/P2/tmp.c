@@ -1,6 +1,6 @@
 #include "stm32l476xx.h"
 
-#define TIME_SEC 12345.99
+#define TIME_SEC 2.99
 
 extern void GPIO_init();
 extern void max7219_init();
@@ -69,15 +69,16 @@ void DISPLAY_init(){
 void DISPLAY_TIME(int TIM_INT,int TIM_FLO){
     int len = 0;
     while(TIM_INT != 0){
-        MAX7219Send((len+4)<<8,TIM_INT%10);
+        if(len==0) MAX7219Send((len+3)<<8,(1<<7) + TIM_INT%10);
+        else MAX7219Send((len+3)<<8,TIM_INT%10);
         TIM_INT /= 10;
         ++len;
     }
-    MAX7219Send(1<<8,TIM_FLO/10);
-    MAX7219Send(2<<8,TIM_FLO%10);
+    MAX7219Send(2<<8,TIM_FLO/10);
+    MAX7219Send(1<<8,TIM_FLO%10);
 }
 
-void CNT_DONE(){while(1){MUTIDISPLAY(777777);}}
+void CNT_DONE(){while(1){}}
 
 int main(){
     GPIO_init();
@@ -90,7 +91,8 @@ int main(){
     Timer_start();
 
     while(1){
-        if(TIME_INT == SUM_INT && TIME_FLOAT == TIM2->CNT){
+        if(TIME_INT == SUM_INT && TIME_FLOAT == TIM2->CNT/40){
+            DISPLAY_TIME(SUM_INT,TIM2->CNT/40);
             CNT_DONE();
         } else if(TIM2->SR & 0x00000001){
             TIM2->SR &= 0xFFFFFFFE;     // set to 0
