@@ -1,7 +1,7 @@
 #include "stm32l476xx.h"
-#define ADD_PWM 200
-#define MIN_PWM 400
-#define MAX_PWM 3600
+#define ADD_PWM (uint32_t)200
+#define MIN_PWM (uint32_t)400
+#define MAX_PWM (uint32_t)3600
 
 int keypad_value[4][4] = {
         {1, 2, 3, 10},
@@ -10,19 +10,6 @@ int keypad_value[4][4] = {
         {15, 0, 14, 13}
     };
 int flag[4][4] = {0};
-extern void max7219_init();
-extern void max7219_send(int address,int data);
-
-int display(int data){
-    if(data<=9){
-        max7219_send(1<<8,data);
-        max7219_send(2<<8,0xF);
-    } else {
-        max7219_send(1<<8,data%10);
-        max7219_send(2<<8,data/10);
-    }
-    return 0;
-}
 
 // pull-up: no:1 push:0
 
@@ -67,30 +54,29 @@ void keypad_init(){
 
 int main(){
     keypad_init();
-	max7219_init();
-    max7219_send(1<<8,0xf);
-    max7219_send(2<<8,0xf);
 
-    int tmp3=0;
     int flag_add = 1;
     int flag_sub = 1;
 
     /* set up */
-
     RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;  // enable TIM2 clock
     TIM2->CR1 = 0;
     TIM2->CNT = 0;
-    TIM2->PSC = (uint32_t)999;
-    TIM2->ARR = (uint32_t)3999; // 4M = 4000000/1000 = 4000;
-    TIM2->EGR = 0x0001;         // re init
-    TIM2->CCMR1 = 0b1100000;
-    TIM2->CCER = 1;
-    TIM2->CCR1 = 400;           // 10%
-    // PWM mode 1 -
-    // upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCR1 else inactive.
-    // downcounting, channel 1 is inactive (OC1REF=��0) as long as TIMx_CNT>TIMx_CCR1 else active (OC1REF=1).
-    TIM2->CR1 = 1;              // TIM2 start !
+    //TIM2->PSC = (uint32_t)999;
+    //TIM2->ARR = (uint32_t)3999; // 4M = 4000000/1000 = 4000;
 
+    TIM2->CCER = 1;
+    TIM2->CCMR1 = 0x0060;
+    //TIM2->CCR1 = 400;           // 10%
+
+    TIM2->ARR = 99;
+    TIM2->CCR1 = 49;
+
+    // PWM mode 1 -
+    // upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCR1, else inactive.
+    TIM2->EGR = 0x0001;         // re init
+
+    TIM2->CR1 = 1;              // TIM2 start !
     while (1){
         int i=0,j=0;
         int sum = 0;
@@ -112,26 +98,20 @@ int main(){
 
         if(sum!=0){
             if(sum == 15 && flag_add){
-                //tmp3++;
-                TIM2->CCR1 += (TIM2->CCR1<=MIN_PWM)?MAX_PWM:TIM2->CCR1+ADD_PWM;
-                TIM2->EGR = 0x0001;
+                //TIM2->CCR1 = (TIM2->CCR1==MAX_PWM)?MAX_PWM:TIM2->CCR1+ADD_PWM;
+                TIM2->CCR1 = (TIM2->CCR1==90)?90:TIM2->CCR1+5;
                 flag_add = 0;
                 flag_sub = 1;
             }
             else if(sum == 14 && flag_sub){
-                //GPIOC->ODR = 0;
-                //tmp3--;
-                TIM2->CCR1 += (TIM2->CCR1<=MIN_PWM)?MIN_PWM:TIM2->CCR1-ADD_PWM;
-                TIM2->EGR = 0x0001;
+                //TIM2->CCR1 = (TIM2->CCR1==MIN_PWM)?MIN_PWM:TIM2->CCR1-ADD_PWM;
+                TIM2->CCR1 = (TIM2->CCR1==10)?10:TIM2->CCR1-5;
                 flag_sub = 0;
                 flag_add = 1;
             }
-            display(tmp3);
         } else {
             flag_add = 1;
             flag_sub = 1;
-            max7219_send(1<<8,0xf);
-            max7219_send(2<<8,0xf);
         }
     }
     return 0;
