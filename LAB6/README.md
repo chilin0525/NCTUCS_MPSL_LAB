@@ -20,3 +20,11 @@ PC3 <==> CLK
 
 
 ## P3
+
+![](https://i.imgur.com/Vo6jEdH.png)
+
+![](https://i.imgur.com/uQ0Cuud.png)
+
+![](https://i.imgur.com/qB4yHSU.png)
+
+![](https://i.imgur.com/MYP2nRf.png)
