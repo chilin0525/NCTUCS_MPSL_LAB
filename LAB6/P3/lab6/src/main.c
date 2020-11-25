@@ -70,7 +70,7 @@ int main(){
     //TIM2->CCR1 = 400;           // 10%
 
     TIM2->ARR = 99;
-    TIM2->CCR1 = 49;
+    TIM2->CCR1 = 50;
 
     // PWM mode 1 -
     // upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCR1, else inactive.
@@ -99,13 +99,13 @@ int main(){
         if(sum!=0){
             if(sum == 15 && flag_add){
                 //TIM2->CCR1 = (TIM2->CCR1==MAX_PWM)?MAX_PWM:TIM2->CCR1+ADD_PWM;
-                TIM2->CCR1 = (TIM2->CCR1==90)?90:TIM2->CCR1+5;
+                TIM2->CCR1 = (TIM2->CCR1>=90)?90:TIM2->CCR1+5;
                 flag_add = 0;
                 flag_sub = 1;
             }
             else if(sum == 14 && flag_sub){
                 //TIM2->CCR1 = (TIM2->CCR1==MIN_PWM)?MIN_PWM:TIM2->CCR1-ADD_PWM;
-                TIM2->CCR1 = (TIM2->CCR1==10)?10:TIM2->CCR1-5;
+                TIM2->CCR1 = (TIM2->CCR1<=10)?10:TIM2->CCR1-5;
                 flag_sub = 0;
                 flag_add = 1;
             }
