@@ -19,7 +19,7 @@ int DEBOUNCE(){
     for(i=1;i<=1000;i++){
         int check_press = GPIOC -> IDR & 0b10000000000000;
         if(check_press != 0){   // not press?
-            press_cnt = 0;  
+            press_cnt = 0;
         } else {                // press?
             ++press_cnt;
         }
@@ -41,7 +41,7 @@ int DEBOUNCE(){
         return 0;   // not press
     }
 
-    return 1;   // press 
+    return 1;   // press
 }
 
 void SET_CLK(int freq){
@@ -49,8 +49,8 @@ void SET_CLK(int freq){
 	RCC -> CFGR &= 0xFFFFFFF0;
 
     // step1: set PLLON to 0 (disable)
-    RCC -> CR &= 0xFEFFFFFF; 
-    
+    RCC -> CR &= 0xFEFFFFFF;
+
     // step2: wait until PLLRDY cleared
     // PLLRDY :  1 locked  ;  0 unloced
     while(1){
@@ -97,9 +97,9 @@ int main(){
         }
         SET_CLK(freq[idx]);
         MUTIDISPLAY(freq[idx]);
-        GPIOC -> BRR = 1;  // open LED
+        GPIOA -> BRR = 1<<5;  // open LED
         DELAY();
-        GPIOC -> BSRR = 1;  // open LED
+        GPIOA -> BSRR = 1<<5;  // open LED
         DELAY();
     }
 
