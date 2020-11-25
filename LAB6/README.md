@@ -152,8 +152,13 @@ ref:
 ![](https://i.imgur.com/XEIcuIc.png)
 ![](https://i.imgur.com/eRPNXUF.png)
 
-TIM2->SR
+TIM2->SR:
+
 ![](https://i.imgur.com/DneLu5W.png)
+
+TIM2->EGR:
+
+![](https://i.imgur.com/XYtpzHk.png)
 
 
 <br>
