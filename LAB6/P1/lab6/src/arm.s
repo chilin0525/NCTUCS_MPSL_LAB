@@ -65,7 +65,7 @@
 GPIO_init:
 
 	// open BUS
-	mov R0,#0b100 	// 100
+	mov R0,#0b101 	// 100
 	ldr R1,=RCC_AHB2ENR
 	str R0,[R1]
 
@@ -78,9 +78,17 @@ GPIO_init:
 	ldr R1,=GPIOC_MODER     // PC0  as output mode
 	str R0,[R1]				// PC13 as input  mode
 
+	mov R0,#0b010000000000;
+	ldr R1,=GPIOA_MODER
+	str R0,[R1]
+
 	// set output register
 	mov R0,#0b0
 	ldr R1,=GPIOC_ODR
+	str R0,[R1]
+
+	mov R0,#0
+	ldr R1,=GPIOA_ODR
 	str R0,[R1]
 
 	//set input register
@@ -222,7 +230,7 @@ MUTIDISPLAY:
 	mov r0,r6       // r0:address
 	mov r1,r9       // r1:data
 	BL MAX7219Send
-	
+
 	cmp R8,0
 	IT ne
 	movne r12,r8
@@ -231,7 +239,7 @@ MUTIDISPLAY:
 	NOT_DONE:
 	cmp R3,#8
 	beq DONE2
-	
+
 	add r3,r3,1
 	mov r6,r3,lsl #8
 	mov r0,r6
