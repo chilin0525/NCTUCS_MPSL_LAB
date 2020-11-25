@@ -62,7 +62,7 @@ int main(){
     RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;  // enable TIM2 clock
     TIM2->CR1 = 0;
     TIM2->CNT = 0;
-    //TIM2->PSC = (uint32_t)999;
+//    TIM2->PSC = (uint32_t)400/3.32;
     //TIM2->ARR = (uint32_t)3999; // 4M = 4000000/1000 = 4000;
 
     TIM2->CCER = 1;
@@ -97,13 +97,13 @@ int main(){
         }
 
         if(sum!=0){
-            if(sum == 15 && flag_add){
+            if(sum == 14 && flag_add){
                 //TIM2->CCR1 = (TIM2->CCR1==MAX_PWM)?MAX_PWM:TIM2->CCR1+ADD_PWM;
                 TIM2->CCR1 = (TIM2->CCR1>=90)?90:TIM2->CCR1+5;
                 flag_add = 0;
                 flag_sub = 1;
             }
-            else if(sum == 14 && flag_sub){
+            else if(sum == 15 && flag_sub){
                 //TIM2->CCR1 = (TIM2->CCR1==MIN_PWM)?MIN_PWM:TIM2->CCR1-ADD_PWM;
                 TIM2->CCR1 = (TIM2->CCR1<=10)?10:TIM2->CCR1-5;
                 flag_sub = 0;
