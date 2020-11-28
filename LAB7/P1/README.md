@@ -29,8 +29,11 @@ Ref: [Lecture 12: System Timer (SysTick)](https://www.youtube.com/watch?v=aLCUDv
 SysTick 是 down counter, 所以當 count 為0時表示要發出 Interrupt
 
 ```COUNTFLAG```: 當 Counter 數到 0 設為1
+
 ```TICKINT```: 是否為有開啟 interrupt, 無的話 interrupt 不發出
+
 ```ENABLE```: 就 enable :smiley_cat: 
+
 ```CLOCK SOURCE```: 選擇 Clock source
 
 interrupt condition : ```COUNTERFLAG``` and ```TICKINT```
