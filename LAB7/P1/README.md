@@ -19,3 +19,7 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
   return (0UL);                                                     /* Function successful */
 } 
 ```
+
+對 ```SystTck```  類型的 interrupt, NVIC(nested vectored interrupt controller) 會執行相對應的 ISR(interrup service routine) : ```void SysTick_Handler(void)```
+
+Ref: [Lecture 12: System Timer (SysTick)](https://www.youtube.com/watch?v=aLCUDv_fgoU&ab_channel=EmbeddedSystemswithARMCortex-MMicrocontrollersinAssemblyLanguageandC)
