@@ -90,7 +90,6 @@ void EXTI_config(){
 }
 
 void NVIC_config(){
-	asm("cpsie i;");
 
 	NVIC_EnableIRQ(EXTI9_5_IRQn);
 	NVIC_EnableIRQ(EXTI3_IRQn);
@@ -105,8 +104,6 @@ void NVIC_config(){
 }
 
 void EXTI3_IRQHandler(void){
-	GPIOA->ODR ^= 0b100000; 
-	while(1){}
 	WORK();
 	EXTI->PR1 |= EXTI_PR1_PIF3;
 }
@@ -122,8 +119,8 @@ void EXTI9_5_IRQHandler(void){
 }
 
 void DELAY(){
-	int i=2000000;
-	while(i){i-=5;}
+	int i=500000;
+	while(i){i-=8;}
 }
 
 void WORK(){
@@ -154,13 +151,46 @@ void WORK(){
 	}
 }
 
+void SystemClock_Config(){
+	RCC->CR |= 0x100;
+	//turn on HSI16
+
+	RCC->CFGR |= 1;
+	// 01: HSI16 selected as system clock
+
+	RCC->CFGR |= 0xB0;
+	// prescaler 16
+	// HENCE: 16M / 16 = 1M
+	/*
+	0xxx: SYSCLK not divided
+	1000: SYSCLK divided by 2
+	1001: SYSCLK divided by 4
+	1010: SYSCLK divided by 8
+	1011: SYSCLK divided by 16
+	1100: SYSCLK divided by 64
+	1101: SYSCLK divided by 128
+	1110: SYSCLK divided by 256
+	1111: SYSCLK divided by 512
+	*/
+}
+
+int STATE = 0;
+void SysTick_Handler(void) {
+	//EXTI->IMR1 |= EXTI_PR1_PIF3 ;
+	EXTI->SWIER1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
+	
+}
+
+
 int main(){
 	EXTI_config();
 	NVIC_config();
     keypad_init();
-
-	GPIOA->ODR = 0b100000; 
-    while (1){}
+	SystemClock_Config();
+	SysTick_Config(100000);
 	
+	GPIOA->ODR = 0b100000; 
+    //while (1){}
+
     return 0;
 }
