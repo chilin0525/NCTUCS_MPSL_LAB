@@ -21,6 +21,7 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
   return (0UL);                                                     /* Function successful */
 } 
 ```
+
 <br>
 
 對 ```SystTck```  類型的 interrupt, NVIC(nested vectored interrupt controller) 會執行相對應的 ISR(interrup service routine) : ```void SysTick_Handler(void)```
@@ -28,6 +29,8 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 Ref: [Lecture 12: System Timer (SysTick)](https://www.youtube.com/watch?v=aLCUDv_fgoU&ab_channel=EmbeddedSystemswithARMCortex-MMicrocontrollersinAssemblyLanguageandC)
 
 ![](https://i.imgur.com/us2eom9.png)
+
+<br>
 
 SysTick 是 down counter, 所以當 count 為0時表示要發出 Interrupt
 
