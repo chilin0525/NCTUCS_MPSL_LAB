@@ -177,8 +177,23 @@ void SystemClock_Config(){
 int STATE = 0;
 void SysTick_Handler(void) {
 	//EXTI->IMR1 |= EXTI_PR1_PIF3 ;
-	EXTI->SWIER1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
 	
+    //EXTI->SWIER1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
+        
+    if(STATE==0){
+        GPIOC->ODR = 0b0001;
+        ++STATE;
+    } else if(STATE==1) {
+        GPIOC->ODR = 0b0010;
+        ++STATE;
+    } else if(STATE==2) {
+        GPIOC->ODR = 0b0100;
+        ++STATE;
+    } else {
+        GPIOC->ODR = 0b1000;
+        STATE = 0;
+    }
+
 }
 
 
