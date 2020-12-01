@@ -46,6 +46,7 @@ SysTick 是 down counter, 所以當 count 為0時表示要發出 Interrupt
 
 interrupt condition : ```COUNTERFLAG``` and ```TICKINT```
 
+<br>
 
 ## Ref:
 
@@ -59,4 +60,13 @@ RCC->CFCG:
 
 ![](https://i.imgur.com/EmqlJj8.png)
 
-![Uploading file..._umye0148f]()
+
+<br>
+
+Systick:
+
+![](https://i.imgur.com/7EdPmde.png)
+
+![](https://i.imgur.com/O4EjZZb.png)
+
+![](https://i.imgur.com/l8jD3am.png)
