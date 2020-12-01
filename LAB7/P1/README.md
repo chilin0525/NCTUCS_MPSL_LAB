@@ -2,7 +2,7 @@
 
 <br>
 
-SysTick_Config:
+```SysTick_Config()``` in ```core_cm4.h```:
 
 ```c
 __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
