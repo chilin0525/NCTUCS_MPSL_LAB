@@ -148,13 +148,13 @@ void WORK(){
 
 	if(sum!=0){
         //GPIOA->ODR ^= 0b100000;     // close LED
-        Timer_output();
 
 		Timer_start(100000*sum);
-        while(!(TIM5->SR & 0x00000001)){
-            if((GPIOC->IDR & 0b10000000000000) != 0b10000000000000){
-                break;
-            }
+        while(!(TIM5->SR & 0x00000001)){}
+        
+        Timer_output();
+        while(1){
+            if((GPIOC->IDR & 0b10000000000000) != 0b10000000000000){break;}
         }
         TIM2->CR1 = 0;
         TIM5->SR &= 0xFFFFFFFE;
