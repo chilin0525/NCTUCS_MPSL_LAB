@@ -53,3 +53,5 @@ PB5 --> EXTI5
 PC9 --> EXTI9
 
 但 EXTI5 與 EXTI9 共用 EXTI9_5_IRQn 和 EXTI9_5_IRQHandler
+
+更 : live_coding 我沒有額外做但可以跑，不過最簡單的做法就是把 interrupt disable掉 。 關於DEMO問題最後一題， DEMO 時助教表示其實可以做到，儘管 EXTI5 與 EXTI9 共用 EXTI9_5_IRQn 但還是可以透過軟體的方式去驗證是哪個發出的 interrupt ，助教說我有提到"共用"所以不扣分但依照目前個人所學的內容來看 NVIC 就是沒辦法分辨，可以以軟體實現是額外做法，哭阿 
