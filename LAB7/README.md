@@ -44,3 +44,11 @@ NVIC 不用手動清除 pending bit
 ![](https://i.imgur.com/jn6ijNy.png)
 
 ### 當 PB5 與 PC9 作為外部中斷 (EXTI)，並同時發出中斷訊號時，NVIC 是否有辦法直接區分是誰發出的中斷，為什麽可以？或為什麼不可以？
+
+不可以
+
+PB5 --> EXTI5
+
+PC9 --> EXTI9
+
+但 EXTI5 與 EXTI9 共用 EXTI9_5_IRQn 和 EXTI9_5_IRQHandler
