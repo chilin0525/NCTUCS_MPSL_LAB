@@ -46,7 +46,7 @@ void keypad_init(){
     //  X3 == pb3 == pin1 == col4
     */
    	// PB3456 as External Interrupt
-	// EX3 4 5 6 
+	// EX3 4 5 6
 
     GPIOC -> MODER = 0b000001010101;
     GPIOC -> ODR = 0;
@@ -68,7 +68,7 @@ void EXTI_config(){
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI4_PB;
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI5_PB;
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI6_PB;
-	// Choose PB3456 as External Internal 
+	// Choose PB3456 as External Internal
 
 	EXTI->RTSR1 |= EXTI_RTSR1_RT3;
 	EXTI->RTSR1 |= EXTI_RTSR1_RT4;
@@ -83,7 +83,7 @@ void EXTI_config(){
 	EXTI->IMR1 |= EXTI_IMR1_IM5;
 	EXTI->IMR1 |= EXTI_IMR1_IM6;
 	// Interrupt Mask Register
-	// 0 : marked 
+	// 0 : marked
 	// 1 : not masked
 
 	EXTI->PR1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
@@ -106,16 +106,19 @@ void NVIC_config(){
 void EXTI3_IRQHandler(void){
 	WORK();
 	EXTI->PR1 |= EXTI_PR1_PIF3;
+	NVIC_ClearPendingIRQ(EXTI3_IRQn);
 }
 
 void EXTI4_IRQHandler(void){
 	WORK();
 	EXTI->PR1 |= EXTI_PR1_PIF4;
+	NVIC_ClearPendingIRQ(EXTI4_IRQn);
 }
 
 void EXTI9_5_IRQHandler(void){
 	WORK();
 	EXTI->PR1 |= EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
+	NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
 }
 
 void DELAY(){
@@ -131,7 +134,7 @@ void WORK(){
 			flag[i][j] = 0;
 		}
 	}
-	
+
 	for(i=0;i<4;i++){
 		GPIOC -> ODR = (1 << i) ;
 		for(j=0;j<4;j++){
@@ -145,7 +148,7 @@ void WORK(){
 
 	if(sum!=0){
 		for(i=1;i<=2*sum;i++){
-			GPIOA->ODR ^= 0b100000; 
+			GPIOA->ODR ^= 0b100000;
 			DELAY();
 		}
 	}
@@ -177,9 +180,9 @@ void SystemClock_Config(){
 int STATE = 0;
 void SysTick_Handler(void) {
 	//EXTI->IMR1 |= EXTI_PR1_PIF3 ;
-	
+
     //EXTI->SWIER1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
-        
+
     if(STATE==0){
         GPIOC->ODR = 0b0001;
         ++STATE;
@@ -204,7 +207,7 @@ int main(){
 	SystemClock_Config();
 	SysTick_Config(100000);
 	
-	GPIOA->ODR = 0b100000; 
+	GPIOA->ODR = 0b100000;
     //while (1){}
 
     return 0;
