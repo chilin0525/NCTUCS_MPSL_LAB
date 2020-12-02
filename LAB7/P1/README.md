@@ -26,6 +26,8 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 #define SysTick_LOAD_RELOAD_Msk            (0xFFFFFFUL /*<< SysTick_LOAD_RELOAD_Pos*/)    /*!< SysTick LOAD: RELOAD Mask */
 ```
 
+(0xFFFFFFUL=16777215)
+
 對 ```SystTck```  類型的 interrupt, NVIC(nested vectored interrupt controller) 會執行相對應的 ISR(interrup service routine) : ```void SysTick_Handler(void)```
 
 
