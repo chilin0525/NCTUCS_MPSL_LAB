@@ -3,6 +3,10 @@
 #define MIN_PWM (uint32_t)400
 #define MAX_PWM (uint32_t)3600
 
+extern void max7219_init();
+extern void MAX7219Send(int address,int data);
+extern void MUTIDISPLAY();
+
 int keypad_value[4][4] = {
         {1, 2, 3, 10},
         {4, 5, 6, 11},
@@ -49,9 +53,9 @@ void keypad_init(){
     //  X3 == pb3 == pin1 == col4
     */
    	// PB3456 as External Interrupt
-	// EX3 4 5 6 
+	// EX3 4 5 6
 
-    GPIOC -> MODER = 0b000001010101;
+    GPIOC -> MODER = 0b010001010001010101;
     GPIOC -> ODR = 0;
     /*
     //  pc0-3 : output to test
@@ -71,7 +75,7 @@ void EXTI_config(){
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI4_PB;
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI5_PB;
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI6_PB;
-	// Choose PB3456 as External Internal 
+	// Choose PB3456 as External Internal
 
 	EXTI->RTSR1 |= EXTI_RTSR1_RT3;
 	EXTI->RTSR1 |= EXTI_RTSR1_RT4;
@@ -86,7 +90,7 @@ void EXTI_config(){
 	EXTI->IMR1 |= EXTI_IMR1_IM5;
 	EXTI->IMR1 |= EXTI_IMR1_IM6;
 	// Interrupt Mask Register
-	// 0 : marked 
+	// 0 : marked
 	// 1 : not masked
 
 	EXTI->PR1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
@@ -121,37 +125,38 @@ void EXTI9_5_IRQHandler(void){
 	EXTI->PR1 |= EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
 }
 
-void DELAY(){
-	int i=500000;
-	while(i){i-=8;}
-}
-
 void WORK(){
 	int i=0,j=0;
 	int sum = 0;
+	int flag_zero = 0;
 	for(i=0;i<4;i++){
 		for(j=0;j<4;j++){
 			flag[i][j] = 0;
 		}
 	}
-	
+
 	for(i=0;i<4;i++){
 		GPIOC -> ODR = (1 << i) ;
 		for(j=0;j<4;j++){
 			int tmp = GPIOB -> IDR & 0b1111000;
 			if( (tmp >> (6-j)) & 0x1){
 				sum += keypad_value[i][j];
+				if(keypad_value[i][j]==0){
+					flag_zero = 1;
+				}
 				flag[i][j] = 1;
 			}
 		}
 	}
 
-	if(sum!=0){
+	if(sum!=0 || flag_zero){
         //GPIOA->ODR ^= 0b100000;     // close LED
+		MUTIDISPLAY(sum);
+		if(sum!=0){	
+			Timer_start(100000*sum);
+			while(!(TIM5->SR & 0x00000001)){}
+		}
 
-		Timer_start(100000*sum);
-        while(!(TIM5->SR & 0x00000001)){}
-        
         Timer_output();
         while(1){
             if((GPIOC->IDR & 0b10000000000000) != 0b10000000000000){break;}
@@ -159,8 +164,8 @@ void WORK(){
         TIM2->CR1 = 0;
         TIM5->SR &= 0xFFFFFFFE;
 
-        //GPIOA->ODR ^= 0b100000; 
-	}
+        //GPIOA->ODR ^= 0b100000;
+	} 
 }
 
 void SystemClock_Config(){
@@ -189,9 +194,9 @@ void SystemClock_Config(){
 int STATE = 0;
 void SysTick_Handler(void) {
 	//EXTI->IMR1 |= EXTI_PR1_PIF3 ;
-	
+
     //EXTI->SWIER1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
-        
+
     if(STATE==0){
         GPIOC->ODR = 0b0001;
         ++STATE;
@@ -246,11 +251,12 @@ int main(){
 	EXTI_config();
 	NVIC_config();
     keypad_init();
+	max7219_init();
 	SystemClock_Config();
 	Timer_init();
     SysTick_Config(100000);
-	
-	GPIOA->ODR = 0b100000; 
+
+	GPIOA->ODR = 0b100000;
     //while (1){}
 
     return 0;
