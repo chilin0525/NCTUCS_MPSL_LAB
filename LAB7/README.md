@@ -34,3 +34,13 @@ void EXTI9_5_IRQHandler(void){
 	EXTI->PR1 |= EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
 }
 ```
+
+NVIC 不用手動清除 pending bit 
+
+在 NVIC 呼叫相對應的 interrupt Handler 前 NVIC 將會先 clear NVIC state 才呼叫相對應的 IRQhandler 
+
+[ref1](https://electronics.stackexchange.com/questions/114985/to-clear-or-not-to-clear-arm-cortex-m-nvic-interrupt-pending) [ref2](https://community.st.com/s/question/0D50X00009XkfPK/interrupt-pending-bits-what-they-are-for)
+
+![](https://i.imgur.com/jn6ijNy.png)
+
+### 當 PB5 與 PC9 作為外部中斷 (EXTI)，並同時發出中斷訊號時，NVIC 是否有辦法直接區分是誰發出的中斷，為什麽可以？或為什麼不可以？
