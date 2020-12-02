@@ -21,6 +21,7 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
   return (0UL);                                                     /* Function successful */
 } 
 ```
+
 ```c
 #define SysTick_LOAD_RELOAD_Msk            (0xFFFFFFUL /*<< SysTick_LOAD_RELOAD_Pos*/)    /*!< SysTick LOAD: RELOAD Mask */
 ``
