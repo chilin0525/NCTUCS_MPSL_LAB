@@ -14,6 +14,7 @@ int keypad_value[4][4] = {
         {15, 0, 14, 13}
     };
 int flag[4][4] = {0};
+int DONE_FLAG = 0;
 
 // pull-up: no:1 push:0
 void keypad_init(){
@@ -77,6 +78,8 @@ void EXTI_config(){
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI6_PB;
 	// Choose PB3456 as External Internal
 
+	SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI13_PC;
+
 	EXTI->RTSR1 |= EXTI_RTSR1_RT3;
 	EXTI->RTSR1 |= EXTI_RTSR1_RT4;
 	EXTI->RTSR1 |= EXTI_RTSR1_RT5;
@@ -85,6 +88,8 @@ void EXTI_config(){
 	// 0 : disable
 	// 1 : disable
 
+	EXTI->RTSR1 |= EXTI_RTSR1_RT13;
+
 	EXTI->IMR1 |= EXTI_IMR1_IM3;
 	EXTI->IMR1 |= EXTI_IMR1_IM4;
 	EXTI->IMR1 |= EXTI_IMR1_IM5;
@@ -92,8 +97,10 @@ void EXTI_config(){
 	// Interrupt Mask Register
 	// 0 : marked
 	// 1 : not masked
+	EXTI->IMR1 |= EXTI_IMR1_IM13;
 
 	EXTI->PR1 |= EXTI_PR1_PIF3 | EXTI_PR1_PIF4 | EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
+	EXTI->PR1 |= EXTI_PR1_PIF13;
 }
 
 void NVIC_config(){
@@ -101,6 +108,8 @@ void NVIC_config(){
 	NVIC_EnableIRQ(EXTI9_5_IRQn);
 	NVIC_EnableIRQ(EXTI3_IRQn);
 	NVIC_EnableIRQ(EXTI4_IRQn);
+	NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 	// enable EXTI5 to NVIC
 	/*
 	__STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
@@ -123,6 +132,12 @@ void EXTI4_IRQHandler(void){
 void EXTI9_5_IRQHandler(void){
 	WORK();
 	EXTI->PR1 |= EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
+}
+
+void EXTI15_10_IRQHandler(void){
+	TIM2->CR1 = 0;
+    TIM5->SR &= 0xFFFFFFFE;
+	EXTI->PR1 |= EXTI_PR1_PIF13;
 }
 
 void WORK(){
@@ -161,11 +176,6 @@ void WORK(){
 		}
 		MUTIDISPLAY(0);
         Timer_output();
-        while(1){
-            if((GPIOC->IDR & 0b10000000000000) != 0b10000000000000){break;}
-        }
-        TIM2->CR1 = 0;
-        TIM5->SR &= 0xFFFFFFFE;
 
         //GPIOA->ODR ^= 0b100000;
 	} 
