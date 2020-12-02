@@ -31,3 +31,15 @@ Y1 == pc1 == pin7 == row2
 Y2 == pc2 == pin6 == row3
 
 Y3 == pc3 == pin5 == row4
+
+### 7-Segment
+
+DIN <===> pc5
+
+CS  <===> pc6
+
+CLK <===> pc8
+
+VCC <===> 5V
+
+GND <===> GND
