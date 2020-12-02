@@ -29,9 +29,10 @@ P1 是以 Processor 作為 clock 來源，根據設定時脈為 1M ， 故counte
 清除方式以 P3 為例子
 
 ```c
-void EXTI9_5_IRQHandler(void){
+void EXTI3_IRQHandler(void){
 	WORK();
-	EXTI->PR1 |= EXTI_PR1_PIF5 | EXTI_PR1_PIF6;
+	EXTI->PR1 |= EXTI_PR1_PIF3;
+	NVIC_ClearPendingIRQ(EXTI3_IRQn);
 }
 ```
 
