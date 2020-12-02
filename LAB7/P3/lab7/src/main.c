@@ -151,12 +151,15 @@ void WORK(){
 
 	if(sum!=0 || flag_zero){
         //GPIOA->ODR ^= 0b100000;     // close LED
-		MUTIDISPLAY(sum);
 		if(sum!=0){	
-			Timer_start(100000*sum);
-			while(!(TIM5->SR & 0x00000001)){}
+			int k=sum;
+			for(k=sum;k>=1;k--){
+				MUTIDISPLAY(k);
+				Timer_start(100000);
+				while(!(TIM5->SR & 0x00000001)){}
+			}
 		}
-
+		MUTIDISPLAY(0);
         Timer_output();
         while(1){
             if((GPIOC->IDR & 0b10000000000000) != 0b10000000000000){break;}
