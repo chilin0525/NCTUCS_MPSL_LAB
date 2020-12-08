@@ -48,7 +48,7 @@ void GPIO_init(){
 	GPIOA->AFR[0] = 0x00007700;
 
 	GPIOC->MODER = 0b01;
-	GPIOA->ASCR = 0b10;
+	GPIOA->ASCR = 1;
 	// pa0 : 11 analogin
 	// pa2 , pa3 : 10 another function
 	// pc13 as btn
@@ -93,21 +93,29 @@ void ADC_init(){
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN;
 	RCC->CCIPR |= RCC_CCIPR_ADCSEL;
 
-	/*!< ADC synchronous clock derived from AHB clock without prescaler */
-	ADC123_COMMON->CCR = 0;
-	 /*!< ADC dual mode disabled (ADC independent mode) */
-	ADC123_COMMON->CCR=0;
+	/* !< ADC synchronous clock derived from AHB clock without prescaler */
+	/* 21:18 --> 0000: input ADC clock not divided */
+	ADC123_COMMON->CCR &= 0xffc3ffff;
+	/* !< ADC dual mode disabled (ADC independent mode) */
+	// 00000: Independent mode
+	ADC123_COMMON->CCR &= 0xfffffff0;
+
+	
 	/*!< ADC oversampling disabled. */
+	// 0000: No shift
 	ADC1->CFGR2 = 0;
  	/*!< ADC resolution 12 bits */
-	ADC1->CFGR = 0;
+	 // 00: 12-bit
+	ADC1->CFGR  &= 0xffffffe7;
 	/*!< Sampling time 6.5 ADC clock cycles */
-	ADC1->SMPR1 = 0;
+	ADC1->SMPR1 &= 0xfffc7fff;
+	ADC1->SMPR1 |= 0b001000000000000000;
 	/*!< ADC conversion data alignment: right aligned (alignment on data register LSB bit 0)*/
-	ADC1->CFGR = 0;
+	ADC1->CFGR |= 0b100000;
 
-	  // Disable deep power mode to start the voltage conversion
-	ADC1->CR =0;
+	
+	// Disable deep power mode to start the voltage conversion
+	ADC1->CR &= ~ADC_CFGR_ALIGN;
 
 	
 	// Enable related interrupt
@@ -116,29 +124,31 @@ void ADC_init(){
 	/*!< ADC conversions are performed in single mode: one conversion per trigger */
 	/* v.s another 
 	*/
-/*!< ADC conversions are performed in continuous mode: after the first trigger, following conversions launched successively automatically */
-	ADC1->CFGR = 0;
-/*!< ADC group regular conversion trigger internal: SW start. */
-	ADC1->CFGR = 0;
+	/*!< ADC conversions are performed in continuous mode: after the first trigger, following conversions launched successively automatically */
+	ADC1->CFGR |= 0xffffdfff;
+	/*!< ADC group regular conversion trigger internal: SW start. */
+	ADC1->CFGR &= ~ADC_CFGR_CONT; 
 	/*!< ADC group regular sequencer discontinuous mode disable */
-	ADC1->CFGR = 0;
+	//ADC1->CFGR = 0;
 
 
-/*!< ADC group regular sequencer disable (equivalent to sequencer of 1 rank: ADC conversion on only 1 channel) */
-ADC1->SQR1 = 0;
- /*!< ADC group regular sequencer discontinuous mode disable */
-	ADC1->CFGR = 0;
-/*!< ADC group regular sequencer rank 1 */
-ADC1->SQR1 = 0;
-/*!< ADC external channel (channel connected to GPIO pin) ADCx_IN5  */
-/*!< ADC group regular sequencer rank 1 */
+	/*!< ADC group regular sequencer disable (equivalent to sequencer of 1 rank: ADC conversion on only 1 channel) */
+	//ADC1->SQR1 = 0;
+ 	/*!< ADC group regular sequencer discontinuous mode disable */
+	//ADC1->CFGR = 0;
+	/*!< ADC group regular sequencer rank 1 */
+	//ADC1->SQR1 = 0;
+	/*!< ADC external channel (channel connected to GPIO pin) ADCx_IN5  */
+	/*!< ADC group regular sequencer rank 1 */
 	
 	// LL_ADC_EnableInternalRegulator
-	ADC1->CR 
+	ADC1->IER |= ADC_IER_EOCIE;
 	// LL_ADC_IsInternalRegulatorEnabled
 
-	//enable
 
+	//enable
+	ADC1->CR |= ADC_CR_ADEN;
+	while(!(ADC1->ISR & ADC_ISR_ADRDY));
 }
 
 int main(){
@@ -146,18 +156,21 @@ int main(){
 	UART2_init();
 	ADC_init();
 	
-	char* Str = "\015Hello World!3\n\015";
-	GPIOC->ODR = 0;
-
+	char* Str[50];
+	GPIOC->ODR = 1;
+	int ans = 0;
 	while(1){
 		// check pc13
 		//if((GPIOC->IDR & 0b10000000000000) == 0){
 		if(DEBOUNCE() == 1){
 			GPIOC->ODR = GPIOC->ODR ^ 1;
+			ADC1->CR |= ADC_CR_ADSTART;
+    		while(!(ADC1->ISR & ADC_ISR_EOC)); //Polling until the ADC conversion of light resistor is done
+    		ans = ADC1->DR;
+			sprintf(Str, "Data: %d", ans);
 			UART2_Transmit(Str);
 		}
 	}
 
     return 0;
 }
-
