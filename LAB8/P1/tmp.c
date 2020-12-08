@@ -14,7 +14,7 @@ void UART2_Transmit(char* data) {
 }
 
 void UART2_Tra(char data){
-	while(!(USART2->ISR & USART_ISR_TXE));
+	while(!(USART2->ISR & USART_ISR_TXE)){;}
 	USART2->TDR = data;
 }
 
@@ -32,7 +32,7 @@ void UART2_init() {
 	// CR2
 	// 1 stop bit
 	USART2->CR2 = 0;
-
+ 	//USART2->CR2 = (USART2->CR2 & ~(USART_CR2_STOP_Msk)) | (0 /*1 stop bit*/);
 
 	// Uart Enable 
 	USART2->CR1 |= USART_CR1_UE;
@@ -41,14 +41,15 @@ void UART2_init() {
 void GPIO_init(){
 	RCC->AHB2ENR |= 0x7;
 
-	GPIOA->MODER = 0b11110000; 
+	GPIOA->MODER = 0b10100000; 
 	// change to AF mode
 
-	GPIOC->MODER = 01;
+	GPIOA->AFR[0] = 0x00007700;
+
+	GPIOC->MODER = 0b01;
 	// pa2 , pa3
 	// pc13 as btn
 	
-	GPIOA->AFR[0] |= 0x00007700;
 }
 
 int DEBOUNCE(){
@@ -89,13 +90,13 @@ int main(){
 	GPIO_init();
 	UART2_init();
 
-	char* Str = "Hello world\n";
+	char* Str = "\033[2K\rHello World!\r\n";
 	GPIOC->ODR = 0;
 
 	while(1){
 		// check pc13
 		//if((GPIOC->IDR & 0b10000000000000) == 0){
-		if(DEBOUNCE()==1){
+		if(DEBOUNCE() == 1){
 			GPIOC->ODR = GPIOC->ODR ^ 1;
 			UART2_Transmit(Str);
 		}
@@ -103,5 +104,4 @@ int main(){
 
     return 0;
 }
-
 
