@@ -6,9 +6,12 @@
 
 ### 說說鮑率(baud rate) 與 位元速率(bit rate) 有何區別？
 
-baud rate : 
+baud rate : 每秒傳輸的 signal 數目 
 
 bit rate : 每秒傳輸的 bit 數目
+
+![](https://i.imgur.com/4Vfxvzj.png)
+
 
 ### (Coding) 在功能不變得情況下，請將 HCLK 設為 2MHz，並將 baud rate 設為 115200。
 
