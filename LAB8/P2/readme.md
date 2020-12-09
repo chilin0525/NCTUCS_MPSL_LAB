@@ -57,3 +57,7 @@ ADC->CR:
 ADC->ISR:
 
 ![](https://i.imgur.com/mVCrEZ8.png)
+
+ADC1 connectivity:
+
+![](https://i.imgur.com/J5yDsWM.png)
