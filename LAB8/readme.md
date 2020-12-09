@@ -6,7 +6,13 @@
 
 ### 說說鮑率(baud rate) 與 位元速率(bit rate) 有何區別？
 
+baud rate : 
+
+bit rate : 每秒傳輸的 bit 數目
+
 ### (Coding) 在功能不變得情況下，請將 HCLK 設為 2MHz，並將 baud rate 設為 115200。
+
+<br>
 
 ## 3.2 Photoresistor and ADC
 
@@ -17,6 +23,8 @@
 ### 每次訊號轉換結束的數值範圍大小，值越大表示 resolution 越細，  因此每次取樣的就越細資料取的也將更完整更細一些。
 
 ### (Coding) 將解析度更改為 8-bit
+
+<br>
 
 ## 3.3 Simple Shell
 
