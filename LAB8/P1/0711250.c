@@ -23,6 +23,7 @@ void init_UART(){
 	USART1->BRR = 26<<4;
 	USART1->CR1 |= USART_CR1_TE;
 	USART1->CR1 |= USART_CR1_UE;
+	//USART enable
 }
 
 void delay(){
