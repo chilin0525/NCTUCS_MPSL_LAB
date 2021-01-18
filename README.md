@@ -1,6 +1,6 @@
 # NCTUCS_Microprocessor_LAB
 
-交通大學資訊工程系 109 上微處理機課程內容
+交通大學資訊工程系 109 上微處理機課程內容 **[課程連結](https://hackmd.io/@GrassLab/SycDfiD4v/%2F87bHufzIRvu-Ui34P-E5Qg?type=book&view)**
 
 ## 良心建議
 
